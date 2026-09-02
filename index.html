@@ -288,7 +288,7 @@
                 <label>Producto *</label>
                 <select id="producto" onchange="gestionarOpCultura('producto'); actualizarOpcionesTipoBase()">
                     <option value="">--Selecciona--</option>
-                    <option value="cad">Tarjeta (cad)</option>
+                    <option value="cad">Tarjeta/Cuentamiga (cad)</option>
                     <option value="tdc">Tarjeta Débito Clásica (tdc)</option>
                     <option value="crd">Crédito (crd)</option>
                     <option value="lib">Libre Inversión (lib)</option>
@@ -298,7 +298,6 @@
                     <option value="fic">FIC (fic)</option>
                     <option value="cdt">CDT (cdt)</option>
                     <option value="prd">Preaprobado (prd)</option>
-                    <option value="cmg">Cuentamiga (cmg)</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="producto_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -467,14 +466,14 @@
 </div>
 
 <script>
-    // ⭐ URL de Apps Script - ACTUALIZAR CON LA URL REAL
+    // ⭐ URL de Apps Script
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNV7zeleJ133uN6PMoHkBDLDNzRMactXOZK7fcTwcxi8cEpw0UOBzhCCu0ijnKku_hXw/exec";
 
     let loteActualCalculado = [];
 
     // MAPEO DE TIPOS DE BASE POR PRODUCTO
     const tiposBaseMap = {
-        'cad': [],
+        'cad': ['vf'],
         'tdc': ['vf', 'pa'],
         'crd': ['vf', 'pa'],
         'lib': [],
@@ -483,8 +482,7 @@
         'nga': [],
         'fic': ['vf'],
         'cdt': ['vf', 'ren', 'ven', 'rei'],
-        'prd': ['po', 'pocdc', 'part', 'pa'],
-        'cmg': ['vf']
+        'prd': ['po', 'pocdc', 'part', 'pa']
     };
 
     function actualizarOpcionesTipoBase() {
