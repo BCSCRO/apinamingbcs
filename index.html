@@ -269,14 +269,14 @@
                 <label>Línea Presupuestal *</label>
                 <select id="linea_presupuestal" onchange="gestionarOpCultura('linea_presupuestal')">
                     <option value="">--Selecciona--</option>
-                    <option value="bau">BAU</option>
-                    <option value="con">CON</option>
-                    <option value="rea">REA</option>
-                    <option value="prd">PRD</option>
-                    <option value="fid">FID</option>
-                    <option value="onb">ONB</option>
-                    <option value="cmi">CMI</option>
-                    <option value="otr">OTR</option>
+                    <option value="bau">BAU - Adquisición</option>
+                    <option value="con">CON - Conversión</option>
+                    <option value="rea">REA - Reactivación</option>
+                    <option value="prd">PRD - Profundización</option>
+                    <option value="fid">FID - Fidelización</option>
+                    <option value="onb">ONB - Onboarding</option>
+                    <option value="cmi">CMI - CMI</option>
+                    <option value="otr">OTR - Otras campañas</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="linea_presupuestal_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -287,16 +287,16 @@
                 <label>Producto *</label>
                 <select id="producto" onchange="gestionarOpCultura('producto'); actualizarOpcionesTipoBase()">
                     <option value="">--Selecciona--</option>
-                    <option value="cad">CAD</option>
-                    <option value="tdc">TDC</option>
-                    <option value="crd">CRD</option>
-                    <option value="lib">LIB</option>
-                    <option value="viv">VIV</option>
-                    <option value="rem">REM</option>
-                    <option value="nga">NGA</option>
-                    <option value="fic">FIC</option>
-                    <option value="cdt">CDT</option>
-                    <option value="prd">PRD</option>
+                    <option value="cad">CAD - Tarjeta</option>
+                    <option value="tdc">TDC - Tarjeta Débito Clásica</option>
+                    <option value="crd">CRD - Crédito</option>
+                    <option value="lib">LIB - Libre Inversión</option>
+                    <option value="viv">VIV - Vivienda</option>
+                    <option value="rem">REM - Remesas</option>
+                    <option value="nga">NGA - No Gestionable</option>
+                    <option value="fic">FIC - FIC</option>
+                    <option value="cdt">CDT - CDT</option>
+                    <option value="prd">PRD - Preaprobado</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="producto_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -307,14 +307,14 @@
                 <label>Campaña *</label>
                 <select id="campana" onchange="gestionarOpCultura('campana')">
                     <option value="">--Selecciona--</option>
-                    <option value="tyg">TYG</option>
-                    <option value="pam">PAM</option>
-                    <option value="mcd">MCD</option>
-                    <option value="nbe">NBE</option>
-                    <option value="esn">ESN</option>
-                    <option value="ma">MA</option>
-                    <option value="col">COL</option>
-                    <option value="sigo">SIGO</option>
+                    <option value="tyg">TYG - Transa y gana</option>
+                    <option value="pam">PAM - Promo Aniversario</option>
+                    <option value="mcd">MCD - Mes del Cliente</option>
+                    <option value="nbe">NBE - New Business</option>
+                    <option value="esn">ESN - Estacionales</option>
+                    <option value="ma">MA - Multipago</option>
+                    <option value="col">COL - Colombia</option>
+                    <option value="sigo">SIGO - Siglo</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="campana_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -334,11 +334,11 @@
                 <label>Segmento</label>
                 <select id="segmento" onchange="gestionarOpCultura('segmento')">
                     <option value="">--En blanco--</option>
-                    <option value="per">PER</option>
-                    <option value="mic">MIC</option>
-                    <option value="emp">EMP</option>
-                    <option value="pym">PYM</option>
-                    <option value="pen">PEN</option>
+                    <option value="per">PER - Personal</option>
+                    <option value="mic">MIC - Microempresa</option>
+                    <option value="emp">EMP - Empresa</option>
+                    <option value="pym">PYM - PyME</option>
+                    <option value="pen">PEN - Pensionista</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="segmento_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -349,17 +349,17 @@
                 <label>Oferta</label>
                 <select id="oferta" onchange="gestionarOpCultura('oferta')">
                     <option value="">--En blanco--</option>
-                    <option value="breb">BREB</option>
-                    <option value="usal">USAL</option>
-                    <option value="us">US</option>
-                    <option value="gan">GAN</option>
-                    <option value="ref">REF</option>
-                    <option value="mejviv">MEJVIV</option>
-                    <option value="seg">SEG</option>
-                    <option value="beni">BENI</option>
-                    <option value="apal">APAL</option>
-                    <option value="apfics">APFICS</option>
-                    <option value="simp">SIMP</option>
+                    <option value="breb">BREB - Bienvenida</option>
+                    <option value="usal">USAL - Usuario Antiguo</option>
+                    <option value="us">US - Aumento Límite</option>
+                    <option value="gan">GAN - Ganar > Perder</option>
+                    <option value="ref">REF - Referidos</option>
+                    <option value="mejviv">MEJVIV - Mejora Vivienda</option>
+                    <option value="seg">SEG - Seguro</option>
+                    <option value="beni">BENI - Beneficio</option>
+                    <option value="apal">APAL - Apertura Plazo</option>
+                    <option value="apfics">APFICS - Apertura Plazo FIC</option>
+                    <option value="simp">SIMP - Simplifica</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="oferta_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -370,9 +370,9 @@
                 <label>Canal</label>
                 <select id="canal" onchange="gestionarOpCultura('canal')">
                     <option value="">--En blanco--</option>
-                    <option value="md">MD</option>
-                    <option value="ads">ADS</option>
-                    <option value="mp">MP</option>
+                    <option value="md">MD - Medios Directos</option>
+                    <option value="ads">ADS - Google Ads</option>
+                    <option value="mp">MP - Meta Ads</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="canal_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -490,7 +490,6 @@
         const tipoBaseSelect = document.getElementById('tipo_base');
         const producto = productoSelect.value;
 
-        // Limpiar opciones anteriores
         tipoBaseSelect.innerHTML = '<option value="">--Sin tipo--</option>';
 
         if (tiposBaseMap[producto]) {
@@ -502,7 +501,6 @@
             });
         }
 
-        // Si hay custom, agregarlo al final
         const option = document.createElement('option');
         option.value = 'CUSTOM';
         option.textContent = '➕ Custom';
@@ -511,27 +509,11 @@
 
     function cambiarTab(event, tabId) {
         event.preventDefault();
-        
-        // Ocultar todos los tab-content
-        document.querySelectorAll('.tab-content').forEach(tab => {
-            tab.classList.remove('active');
-        });
-
-        // Desactivar todos los botones
-        document.querySelectorAll('.tab-button').forEach(btn => {
-            btn.classList.remove('active');
-        });
-
-        // Mostrar tab seleccionado y activar botón
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         event.target.classList.add('active');
-        
-        // Si es tab-config, cargar historial
-        const boton = event.target;
-        boton.classList.add('active');
-        if (tabId === 'tab-config') {
-            cargarHistorialVisual();
-        }
+        if (tabId === 'tab-config') cargarHistorialVisual();
     }
 
     function obtenerValorCampo(id) {
@@ -559,7 +541,6 @@
 
     function generarLote() {
         let journeyNum = document.getElementById('journey_num').value.trim().toLowerCase() || 'j1';
-
         const linea = obtenerValorCampo('linea_presupuestal');
         const campana = obtenerValorCampo('campana');
         const producto = obtenerValorCampo('producto');
@@ -583,47 +564,30 @@
         mediosConfig.forEach(item => {
             if (item.cant > 0) {
                 for (let i = 1; i <= item.cant; i++) {
-                    let medio = item.nombre;
-
                     const basePart = tipoBase ? `_${tipoBase}` : '';
-                    
-                    // ⭐ JOURNEY NAME: j1_linea_campana_producto[_tipoBase]_segmento_oferta_canal_fecha
                     const journeyName = `${journeyNum}_${linea}_${campana}_${producto}${basePart}_${segmento}_${oferta}_${canal}_${fecha}`.toLowerCase();
-                    
-                    // ⭐ MESSAGE NAME: linea_campana_producto_segmento_oferta_medio_i (NUMERADO)
-                    const messageName = `${linea}_${campana}_${producto}_${segmento}_${oferta}_${medio}_${i}`.toLowerCase();
-                    
+                    const messageName = `${linea}_${campana}_${producto}_${segmento}_${oferta}_${item.nombre}_${i}`.toLowerCase();
                     const utmCampaign = `${linea}_${campana}_${producto}${basePart}_${segmento}_${oferta}_${canal}`.toLowerCase();
-                    const utmContent = `${linea}_${campana}_${producto}_${segmento}_${oferta}_${medio}`.toLowerCase();
+                    const utmContent = `${linea}_${campana}_${producto}_${segmento}_${oferta}_${item.nombre}`.toLowerCase();
 
                     let urlFinal = "---";
                     if (urlBase) {
                         const conector = urlBase.includes('?') ? '&' : '?';
-                        urlFinal = `${urlBase}${conector}utm_source=sfmc&utm_medium=${medio}&utm_campaign=${utmCampaign}&utm_content=${utmContent}`;
+                        urlFinal = `${urlBase}${conector}utm_source=sfmc&utm_medium=${item.nombre}&utm_campaign=${utmCampaign}&utm_content=${utmContent}`;
                     }
 
-                    const registro = {
-                        medio,
+                    loteActualCalculado.push({
+                        medio: item.nombre,
                         impacto: i,
                         journeyName,
                         messageName,
                         utmCampaign,
                         utmContent,
                         urlFinal
-                    };
-
-                    loteActualCalculado.push(registro);
+                    });
 
                     const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><strong>${medio}</strong></td>
-                        <td>Impacto ${i}</td>
-                        <td><code>${journeyName}</code></td>
-                        <td><code>${messageName}</code></td>
-                        <td><code>${utmCampaign}</code></td>
-                        <td><code>${utmContent}</code></td>
-                        <td style="word-break:break-all; font-size:10.5px;">${urlFinal}</td>
-                    `;
+                    tr.innerHTML = `<td><strong>${item.nombre}</strong></td><td>Impacto ${i}</td><td><code>${journeyName}</code></td><td><code>${messageName}</code></td><td><code>${utmCampaign}</code></td><td><code>${utmContent}</code></td><td style="word-break:break-all; font-size:10.5px;">${urlFinal}</td>`;
                     tbody.appendChild(tr);
                 }
             }
@@ -638,12 +602,10 @@
 
     function copiarTablaMasiva() {
         if (loteActualCalculado.length === 0) return;
-        
         let textoTSV = "Medio\tImpacto\tJourney Name\tMessage Name\tUTM Campaign\tUTM Content\tURL Final\n";
         loteActualCalculado.forEach(item => {
             textoTSV += `${item.medio}\t${item.impacto}\t${item.journeyName}\t${item.messageName}\t${item.utmCampaign}\t${item.utmContent}\t${item.urlFinal}\n`;
         });
-
         navigator.clipboard.writeText(textoTSV).then(() => {
             alert('✨ Copiado exitosamente. Puedes pegarlo en Excel (Ctrl + V).');
         });
@@ -651,17 +613,14 @@
 
     function guardarLoteEnBitacora() {
         if (loteActualCalculado.length === 0) return;
-
         const btn = document.getElementById('btn-guardar-lote');
         const statusDiv = document.getElementById('status-mensaje');
         btn.disabled = true;
         btn.innerText = "⏳ Guardando en Google Sheets...";
 
-        // Guardar cada registro del lote
         const promesas = loteActualCalculado.map(registro => {
             const payload = {
                 action: "save",
-                // ⭐ NO enviamos fecha/hora - el servidor (Apps Script) las captura automáticamente
                 medio: registro.medio,
                 canal: document.getElementById('canal').value || '',
                 journeyName: registro.journeyName,
@@ -670,78 +629,53 @@
                 utmContent: registro.utmContent,
                 urlFinal: registro.urlFinal
             };
-
-            return fetch(APPS_SCRIPT_URL, {
-                method: "POST",
-                body: JSON.stringify(payload)
-            }).then(res => res.json());
+            return fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) }).then(res => res.json());
         });
 
-        Promise.all(promesas)
-            .then(resultados => {
-                if (resultados.every(r => r.success)) {
-                    statusDiv.textContent = `✅ ${loteActualCalculado.length} registros guardados exitosamente en Google Sheets.`;
-                    statusDiv.className = 'status-alert success';
-                    btn.disabled = false;
-                    btn.innerText = "💾 Registrar Lote en Google Sheets";
-                    setTimeout(() => cargarHistorialVisual(), 1000);
-                } else {
-                    statusDiv.textContent = '❌ Error al guardar algunos registros.';
-                    statusDiv.className = 'status-alert error';
-                    btn.disabled = false;
-                    btn.innerText = "💾 Registrar Lote en Google Sheets";
-                }
-            })
-            .catch(err => {
-                statusDiv.textContent = `❌ Error al guardar: ${err.message}`;
+        Promise.all(promesas).then(resultados => {
+            if (resultados.every(r => r.success)) {
+                statusDiv.textContent = `✅ ${loteActualCalculado.length} registros guardados exitosamente en Google Sheets.`;
+                statusDiv.className = 'status-alert success';
+                btn.disabled = false;
+                btn.innerText = "💾 Registrar Lote en Google Sheets";
+                setTimeout(() => cargarHistorialVisual(), 1000);
+            } else {
+                statusDiv.textContent = '❌ Error al guardar algunos registros.';
                 statusDiv.className = 'status-alert error';
                 btn.disabled = false;
                 btn.innerText = "💾 Registrar Lote en Google Sheets";
-            });
+            }
+        }).catch(err => {
+            statusDiv.textContent = `❌ Error al guardar: ${err.message}`;
+            statusDiv.className = 'status-alert error';
+            btn.disabled = false;
+            btn.innerText = "💾 Registrar Lote en Google Sheets";
+        });
     }
 
     function cargarHistorialVisual() {
         const tbody = document.getElementById('historial-filas');
         tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Cargando registros...</td></tr>';
-
-        const payload = { action: "read" };
-
-        fetch(APPS_SCRIPT_URL, {
-            method: "POST",
-            body: JSON.stringify(payload)
-        })
-            .then(res => res.json())
-            .then(data => {
+        fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "read" }) })
+            .then(res => res.json()).then(data => {
                 if (data.success && data.data && data.data.length > 0) {
                     tbody.innerHTML = '';
-                    // Mostrar en orden inverso (más recientes primero)
                     data.data.reverse().forEach(item => {
                         const tr = document.createElement('tr');
-                        tr.innerHTML = `
-                            <td><strong>${item['Fecha'] || ''}</strong></td>
-                            <td>${item['Medio'] || ''}</td>
-                            <td><code style="color:#2b6cb0;">${item['Journey Name'] || ''}</code></td>
-                            <td><code style="color:#2f855a;">${item['Message Name'] || ''}</code></td>
-                            <td><code style="color:var(--banco-blue); font-weight:bold;">${item['UTM Campaign'] || ''}</code></td>
-                        `;
+                        tr.innerHTML = `<td><strong>${item['Fecha'] || ''}</strong></td><td>${item['Medio'] || ''}</td><td><code style="color:#2b6cb0;">${item['Journey Name'] || ''}</code></td><td><code style="color:#2f855a;">${item['Message Name'] || ''}</code></td><td><code style="color:var(--banco-blue); font-weight:bold;">${item['UTM Campaign'] || ''}</code></td>`;
                         tbody.appendChild(tr);
                     });
                 } else {
                     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#a0aec0; padding:15px;">No hay registros en Google Sheets todavía.</td></tr>';
                 }
-            })
-            .catch(err => {
-                console.error("Error al obtener registros:", err);
+            }).catch(err => {
+                console.error("Error:", err);
                 tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#e53e3e; padding:15px;">Error al conectar con Google Sheets.</td></tr>';
             });
     }
 
-    // Cargar historial al cambiar a la pestaña
     document.addEventListener("DOMContentLoaded", () => {
-        // Inicializar tipos base si hay producto seleccionado
-        if (document.getElementById('producto').value) {
-            actualizarOpcionesTipoBase();
-        }
+        if (document.getElementById('producto').value) actualizarOpcionesTipoBase();
     });
 </script>
 
