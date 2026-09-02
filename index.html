@@ -269,15 +269,14 @@
                 <label>Línea Presupuestal *</label>
                 <select id="linea_presupuestal" onchange="gestionarOpCultura('linea_presupuestal')">
                     <option value="">--Selecciona--</option>
-                    <option value="bau">Adquisición (bau)</option>
-                    <option value="con">Conversión (con)</option>
-                    <option value="rea">Reactivación (rea)</option>
-                    <option value="pro">Profundización (pro)</option>
-                    <option value="fid">Fidelización (fid)</option>
-                    <option value="onb">Onboarding (onb)</option>
-                    <option value="tx">Transaccional (tx)</option>
-                    <option value="cmi">CMI (cmi)</option>
-                    <option value="otr">Otra (otr)</option>
+                    <option value="bau">BAU</option>
+                    <option value="con">CON</option>
+                    <option value="rea">REA</option>
+                    <option value="prd">PRD</option>
+                    <option value="fid">FID</option>
+                    <option value="onb">ONB</option>
+                    <option value="cmi">CMI</option>
+                    <option value="otr">OTR</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="linea_presupuestal_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -288,16 +287,16 @@
                 <label>Producto *</label>
                 <select id="producto" onchange="gestionarOpCultura('producto'); actualizarOpcionesTipoBase()">
                     <option value="">--Selecciona--</option>
-                    <option value="cad">Tarjeta/Cuentamiga (cad)</option>
-                    <option value="tdc">Tarjeta Débito Clásica (tdc)</option>
-                    <option value="crd">Crédito (crd)</option>
-                    <option value="lib">Libre Inversión (lib)</option>
-                    <option value="viv">Vivienda (viv)</option>
-                    <option value="rem">Remesas (rem)</option>
-                    <option value="nga">No Gestionable (nga)</option>
-                    <option value="fic">FIC (fic)</option>
-                    <option value="cdt">CDT (cdt)</option>
-                    <option value="prd">Preaprobado (prd)</option>
+                    <option value="cad">CAD</option>
+                    <option value="tdc">TDC</option>
+                    <option value="crd">CRD</option>
+                    <option value="lib">LIB</option>
+                    <option value="viv">VIV</option>
+                    <option value="rem">REM</option>
+                    <option value="nga">NGA</option>
+                    <option value="fic">FIC</option>
+                    <option value="cdt">CDT</option>
+                    <option value="prd">PRD</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="producto_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -308,14 +307,14 @@
                 <label>Campaña *</label>
                 <select id="campana" onchange="gestionarOpCultura('campana')">
                     <option value="">--Selecciona--</option>
-                    <option value="tyg">Test & Grow (tyg)</option>
-                    <option value="pam">Promo Aniversario (pam)</option>
-                    <option value="mcd">Mes del Cliente (mcd)</option>
-                    <option value="nbe">New Business (nbe)</option>
-                    <option value="etn">Estacionales (etn)</option>
-                    <option value="mpa">Multipago (mpa)</option>
-                    <option value="na">No Aplica (na)</option>
-                    <option value="col">Colombia (col)</option>
+                    <option value="tyg">TYG</option>
+                    <option value="pam">PAM</option>
+                    <option value="mcd">MCD</option>
+                    <option value="nbe">NBE</option>
+                    <option value="esn">ESN</option>
+                    <option value="ma">MA</option>
+                    <option value="col">COL</option>
+                    <option value="sigo">SIGO</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="campana_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -335,11 +334,11 @@
                 <label>Segmento</label>
                 <select id="segmento" onchange="gestionarOpCultura('segmento')">
                     <option value="">--En blanco--</option>
-                    <option value="per">Personal (per)</option>
-                    <option value="mic">Micro (mic)</option>
-                    <option value="emp">Empresa (emp)</option>
-                    <option value="pym">PyME (pym)</option>
-                    <option value="pen">Pensionista (pen)</option>
+                    <option value="per">PER</option>
+                    <option value="mic">MIC</option>
+                    <option value="emp">EMP</option>
+                    <option value="pym">PYM</option>
+                    <option value="pen">PEN</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="segmento_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -350,16 +349,17 @@
                 <label>Oferta</label>
                 <select id="oferta" onchange="gestionarOpCultura('oferta')">
                     <option value="">--En blanco--</option>
-                    <option value="breb">Bienvenida (breb)</option>
-                    <option value="usal">Usuario Antiguo (usal)</option>
-                    <option value="us">Aumento Límite (us)</option>
-                    <option value="gan">Ganar > Perder (gan)</option>
-                    <option value="ref">Referidos (ref)</option>
-                    <option value="mejviv">Mejora Vivienda (mejviv)</option>
-                    <option value="seg">Seguro (seg)</option>
-                    <option value="ben">Beneficio (ben)</option>
-                    <option value="apal">A Plazo (apal)</option>
-                    <option value="apfics">A Plazo FIC (apfics)</option>
+                    <option value="breb">BREB</option>
+                    <option value="usal">USAL</option>
+                    <option value="us">US</option>
+                    <option value="gan">GAN</option>
+                    <option value="ref">REF</option>
+                    <option value="mejviv">MEJVIV</option>
+                    <option value="seg">SEG</option>
+                    <option value="beni">BENI</option>
+                    <option value="apal">APAL</option>
+                    <option value="apfics">APFICS</option>
+                    <option value="simp">SIMP</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="oferta_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -370,9 +370,9 @@
                 <label>Canal</label>
                 <select id="canal" onchange="gestionarOpCultura('canal')">
                     <option value="">--En blanco--</option>
-                    <option value="md">Medios Directos (md)</option>
-                    <option value="ads">Google Ads (ads)</option>
-                    <option value="mp">Meta Ads (mp)</option>
+                    <option value="md">MD</option>
+                    <option value="ads">ADS</option>
+                    <option value="mp">MP</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="canal_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -473,16 +473,16 @@
 
     // MAPEO DE TIPOS DE BASE POR PRODUCTO
     const tiposBaseMap = {
-        'cad': ['vf'],
-        'tdc': ['vf', 'pa'],
-        'crd': ['vf', 'pa'],
+        'cad': ['VF'],
+        'tdc': ['PA', 'NF'],
+        'crd': ['VF', 'NF'],
         'lib': [],
-        'viv': ['hip', 'ces'],
+        'viv': ['HIP', 'CES'],
         'rem': [],
         'nga': [],
-        'fic': ['vf'],
-        'cdt': ['vf', 'ren', 'ven', 'rei'],
-        'prd': ['po', 'pocdc', 'part', 'pa']
+        'fic': [],
+        'cdt': ['VF', 'REN', 'VEN', 'REI'],
+        'prd': ['PO', 'POCDC', 'PART', 'PA']
     };
 
     function actualizarOpcionesTipoBase() {
@@ -496,8 +496,8 @@
         if (tiposBaseMap[producto]) {
             tiposBaseMap[producto].forEach(tipo => {
                 const option = document.createElement('option');
-                option.value = tipo;
-                option.textContent = tipo.toUpperCase();
+                option.value = tipo.toLowerCase();
+                option.textContent = tipo;
                 tipoBaseSelect.appendChild(option);
             });
         }
