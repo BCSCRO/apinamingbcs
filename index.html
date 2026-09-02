@@ -262,6 +262,7 @@
                 <label for="linea_presupuestal">Línea Presupuestal *</label>
                 <select id="linea_presupuestal" onchange="gestionarOpCultura(this.id)">
                     <option value="">-- Seleccionar --</option>
+                    <option value="acq">Adquisición (acq) - Inicial BAU</option>
                     <option value="con">Conservación (con)</option>
                     <option value="rea">Reactivación (rea)</option>
                     <option value="pro">Profundización (pro)</option>
@@ -273,23 +274,6 @@
                     <option value="CUSTOM">➕ Otro / Agregar nuevo...</option>
                 </select>
                 <input type="text" id="linea_presupuestal_custom" class="custom-input" placeholder="Ingresa el código">
-            </div>
-
-            <div>
-                <label for="campana">Campaña *</label>
-                <select id="campana" onchange="gestionarOpCultura(this.id)">
-                    <option value="">-- Seleccionar --</option>
-                    <option value="tyg">Transa y gana (tyg)</option>
-                    <option value="pam">Premio Amigo (pam)</option>
-                    <option value="mcd">Mastercard (mcd)</option>
-                    <option value="nbe">Nueva mejor experiencia (nbe)</option>
-                    <option value="etn">Equipemos tu negocio (etn)</option>
-                    <option value="mpa">Mi pago amigo (mpa)</option>
-                    <option value="na">Negocio amigo (na)</option>
-                    <option value="col">Colmena (col)</option>
-                    <option value="CUSTOM">➕ Otro / Agregar nuevo...</option>
-                </select>
-                <input type="text" id="campana_custom" class="custom-input" placeholder="Ingresa el código">
             </div>
 
             <div>
@@ -312,6 +296,23 @@
             </div>
 
             <div>
+                <label for="campana">Campaña *</label>
+                <select id="campana" onchange="gestionarOpCultura(this.id)">
+                    <option value="">-- Seleccionar --</option>
+                    <option value="tyg">Transa y gana (tyg)</option>
+                    <option value="pam">Premio Amigo (pam)</option>
+                    <option value="mcd">Mastercard (mcd)</option>
+                    <option value="nbe">Nueva mejor experiencia (nbe)</option>
+                    <option value="etn">Equipemos tu negocio (etn)</option>
+                    <option value="mpa">Mi pago amigo (mpa)</option>
+                    <option value="na">Negocio amigo (na)</option>
+                    <option value="col">Colmena (col)</option>
+                    <option value="CUSTOM">➕ Otro / Agregar nuevo...</option>
+                </select>
+                <input type="text" id="campana_custom" class="custom-input" placeholder="Ingresa el código">
+            </div>
+
+            <div>
                 <label for="tipo_base">Tipo Base</label>
                 <select id="tipo_base" onchange="gestionarOpCultura(this.id)">
                     <option value="">-- Sin tipo de base --</option>
@@ -320,9 +321,9 @@
             </div>
 
             <div>
-                <label for="segmento">Segmento *</label>
+                <label for="segmento">Segmento</label>
                 <select id="segmento" onchange="gestionarOpCultura(this.id)">
-                    <option value="">-- Seleccionar --</option>
+                    <option value="">-- Sin segmento / En blanco --</option>
                     <option value="per">Personas (per)</option>
                     <option value="mic">Microempresas (mic)</option>
                     <option value="emp">Empresas (emp)</option>
@@ -334,9 +335,9 @@
             </div>
 
             <div>
-                <label for="oferta">Oferta o Mensaje *</label>
+                <label for="oferta">Oferta o Mensaje</label>
                 <select id="oferta" onchange="gestionarOpCultura(this.id)">
-                    <option value="">-- Seleccionar --</option>
+                    <option value="">-- Sin oferta / En blanco --</option>
                     <option value="breb">BREB (breb)</option>
                     <option value="usal">Uso alcancia (usal)</option>
                     <option value="us">Uso (us)</option>
@@ -353,9 +354,9 @@
             </div>
 
             <div>
-                <label for="canal">Canal *</label>
+                <label for="canal">Canal</label>
                 <select id="canal" onchange="gestionarOpCultura(this.id)">
-                    <option value="">-- Seleccionar --</option>
+                    <option value="">-- Sin canal / En blanco --</option>
                     <option value="md">Medios directos (md)</option>
                     <option value="ads">Medios pagos (ads)</option>
                     <option value="mp">Medios propios (mp)</option>
@@ -384,14 +385,6 @@
                 <div class="batch-item">
                     <label>📱 SMS</label>
                     <input type="number" id="cant_sms" value="1" min="0" max="10">
-                </div>
-                <div class="batch-item">
-                    <label>🔍 Google Ads</label>
-                    <input type="number" id="cant_google" value="1" min="0" max="10">
-                </div>
-                <div class="batch-item">
-                    <label>👥 Meta Ads</label>
-                    <input type="number" id="cant_meta" value="1" min="0" max="10">
                 </div>
             </div>
         </div>
@@ -461,21 +454,32 @@
     // Tipos de base por producto
     const tiposBasePorProducto = {
         'tdc': [
-            { label: 'Visa', value: 'visa' },
-            { label: 'Mastercard', value: 'mcd' },
-            { label: 'American Express', value: 'amex' }
+            { label: 'Venta en Frío (VF)', value: 'vf' },
+            { label: 'Preaprobados (PA)', value: 'pa' }
         ],
         'crd': [
-            { label: 'Libre Inversión', value: 'li' },
-            { label: 'Complementario', value: 'comp' }
+            { label: 'Venta en Frío (VF)', value: 'vf' },
+            { label: 'Preaprobados (PA)', value: 'pa' }
         ],
         'viv': [
-            { label: 'Hipotecario', value: 'hip' },
-            { label: 'Complementario', value: 'comp' }
+            { label: 'Hipotecario (HIP)', value: 'hip' },
+            { label: 'Cesión (CES)', value: 'ces' }
         ],
-        'lib': [
-            { label: 'Libranza Pensionados', value: 'pen' },
-            { label: 'Libranza Empleados', value: 'emp' }
+        'fic': [
+            { label: 'Venta en Frío (VF)', value: 'vf' }
+        ],
+        'cdt': [
+            { label: 'Venta en Frío (VF)', value: 'vf' },
+            { label: 'Renovación (REN)', value: 'ren' },
+            { label: 'Vencimiento (VEN)', value: 'ven' },
+            { label: 'Reinversión (REI)', value: 'rei' }
+        ],
+        'prd': [
+            { label: 'Preofertas (PO)', value: 'po' },
+            { label: 'Preoferta Compra de Cartera (POCDC)', value: 'pocdc' },
+            { label: 'Preofertas Retaqueo (PART)', value: 'part' },
+            { label: 'Preaprobados Retaqueo (PART)', value: 'part' },
+            { label: 'Preaprobados (PA)', value: 'pa' }
         ]
     };
 
@@ -558,9 +562,7 @@
         const mediosConfig = [
             { nombre: 'email', cant: parseInt(document.getElementById('cant_email').value) || 0 },
             { nombre: 'whatsapp', cant: parseInt(document.getElementById('cant_whatsapp').value) || 0 },
-            { nombre: 'sms', cant: parseInt(document.getElementById('cant_sms').value) || 0 },
-            { nombre: 'google', cant: parseInt(document.getElementById('cant_google').value) || 0 },
-            { nombre: 'meta', cant: parseInt(document.getElementById('cant_meta').value) || 0 }
+            { nombre: 'sms', cant: parseInt(document.getElementById('cant_sms').value) || 0 }
         ];
 
         loteActualCalculado = [];
@@ -575,7 +577,7 @@
                     const basePart = tipoBase ? `_${tipoBase}` : '';
                     
                     const journeyName = `${journeyNum}_${linea}_${campana}_${producto}${basePart}_${segmento}_${oferta}_${canal}_${fecha}`.toLowerCase();
-                    const messageName = `${linea}_${campana}_${producto}_${segmento}_${oferta}_${medio}`.toLowerCase();
+                    const messageName = `${linea}_${campana}_${producto}_${segmento}_${oferta}_${medio}_${i}`.toLowerCase();
                     const utmCampaign = `${linea}_${campana}_${producto}${basePart}_${segmento}_${oferta}_${canal}`.toLowerCase();
                     const utmContent = `${linea}_${campana}_${producto}_${segmento}_${oferta}_${medio}`.toLowerCase();
 
