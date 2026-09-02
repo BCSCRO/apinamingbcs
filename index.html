@@ -262,7 +262,7 @@
                 <label for="linea_presupuestal">Línea Presupuestal *</label>
                 <select id="linea_presupuestal" onchange="gestionarOpCultura(this.id)">
                     <option value="">-- Seleccionar --</option>
-                    <option value="acq">Adquisición (bau)</option>
+                    <option value="bau">Adquisición (bau) - Inicial BAU</option>
                     <option value="con">Conservación (con)</option>
                     <option value="rea">Reactivación (rea)</option>
                     <option value="pro">Profundización (pro)</option>
@@ -446,7 +446,7 @@
 </div>
 
 <script>
-    // URL de Apps Script - REEMPLAZAR CON TU URL
+    // URL de Apps Script - URL ANTERIOR (FUNCIONAL)
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNV7zeleJ133uN6PMoHkBDLDNzRMactXOZK7fcTwcxi8cEpw0UOBzhCCu0ijnKku_hXw/exec";
 
     let loteActualCalculado = [];
@@ -647,8 +647,7 @@
         const promesas = loteActualCalculado.map(registro => {
             const payload = {
                 action: "save",
-                fecha: new Date().toLocaleDateString('es-CO'),
-                hora: new Date().toLocaleTimeString('es-CO'),
+                // ⭐ NO enviamos fecha/hora - el servidor las captura
                 medio: registro.medio,
                 canal: document.getElementById('canal').value || '',
                 journeyName: registro.journeyName,
