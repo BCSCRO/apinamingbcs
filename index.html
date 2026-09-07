@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Herramienta Naming Capítulo Performance y Marketing Digital - Banco Caja Social</title>
+    <title>Herramienta Naming Ventas Digitales - Banco Caja Social</title>
     <style>
         :root {
             --banco-blue: #003366;
@@ -277,6 +277,7 @@
                     <option value="onb">ONB - Onboarding</option>
                     <option value="cmi">CMI - CMI</option>
                     <option value="otr">OTR - Otras campañas</option>
+                    <option value="tx">TX - Transaccionalidad</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="linea_presupuestal_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -287,16 +288,16 @@
                 <label>Producto *</label>
                 <select id="producto" onchange="gestionarOpCultura('producto'); actualizarOpcionesTipoBase()">
                     <option value="">--Selecciona--</option>
-                    <option value="cad">CAD - Cuentamiga Digital</option>
-                    <option value="tdc">TDC - Tarjeta de crédito</option>
-                    <option value="crd">CRD - Crédito libre inversión</option>
-                    <option value="lib">LIB - Libranzas</option>
+                    <option value="cad">CAD - Cuentamiga</option>
+                    <option value="tdc">TDC - Tarjeta Débito Clásica</option>
+                    <option value="crd">CRD - Crédito</option>
+                    <option value="lib">LIB - Libre Inversión</option>
                     <option value="viv">VIV - Vivienda</option>
                     <option value="rem">REM - Remesas</option>
                     <option value="nga">NGA - No Gestionable</option>
-                    <option value="fics">FICS - FICS</option>
+                    <option value="fic">FIC - FIC</option>
                     <option value="cdt">CDT - CDT</option>
-                    <option value="prd">PRD - Crédito Productivo</option>
+                    <option value="prd">PRD - Preaprobado</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="producto_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -308,14 +309,13 @@
                 <select id="campana" onchange="gestionarOpCultura('campana')">
                     <option value="">--Selecciona--</option>
                     <option value="tyg">TYG - Transa y gana</option>
-                    <option value="pam">PAM - Premio Amigo</option>
-                    <option value="mcd">MCD - Mastercard</option>
-                    <option value="nbe">NBE - Siguiente mejor experiencia</option>
-                    <option value="esn">ETN - Equigamos tu negocio</option>
-                    <option value="ma">MA - Mi pago amigo</option>
-                    <option value="col">Colmena</option>
-                    <option value="siigo">Siigo</option>
-                      <option value="NA">Negocio Amigo</option>
+                    <option value="pam">PAM - Promo Aniversario</option>
+                    <option value="mcd">MCD - Mes del Cliente</option>
+                    <option value="nbe">NBE - New Business</option>
+                    <option value="esn">ESN - Estacionales</option>
+                    <option value="ma">MA - Multipago</option>
+                    <option value="col">COL - Colombia</option>
+                    <option value="sigo">SIGO - Siglo</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="campana_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -335,11 +335,10 @@
                 <label>Segmento</label>
                 <select id="segmento" onchange="gestionarOpCultura('segmento')">
                     <option value="">--En blanco--</option>
-                    <option value="per">PER - Personas</option>
-                    <option value="mic">MIC - Microempresarios</option>
-                    <option value="emp">EMP - Empresa</option>
+                    <option value="per">PER - Personal</option>
+                    <option value="mic">MIC - Microempresa</option>
                     <option value="pym">PYM - PyME</option>
-                    <option value="pen">PEN - Pensionados</option>
+                    <option value="pen">PEN - Pensionista</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="segmento_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -351,14 +350,14 @@
                 <select id="oferta" onchange="gestionarOpCultura('oferta')">
                     <option value="">--En blanco--</option>
                     <option value="breb">BREB - Bienvenida</option>
-                    <option value="usal">USAL - Usu Alcanciao</option>
-                    <option value="us">US -Uso</option>
-                    <option value="gan">GAN - Ganadores</option>
+                    <option value="usal">USAL - Usuario Antiguo</option>
+                    <option value="us">US - Aumento Límite</option>
+                    <option value="gan">GAN - Ganar > Perder</option>
                     <option value="ref">REF - Referidos</option>
                     <option value="mejviv">MEJVIV - Mejora Vivienda</option>
                     <option value="seg">SEG - Seguro</option>
-                    <option value="ben">BEN - Beneficio</option>
-                    <option value="apla">APLA - Apertura Plazo</option>
+                    <option value="beni">BENI - Beneficio</option>
+                    <option value="apal">APAL - Apertura Plazo</option>
                     <option value="apfics">APFICS - Apertura Plazo FIC</option>
                     <option value="simp">SIMP - Simplifica</option>
                     <option value="CUSTOM">➕ Custom</option>
@@ -486,22 +485,40 @@
         'prd': ['PO', 'POCDC', 'PART', 'PA']
     };
 
+    // MAPEO DE SIGNIFICADOS DE TIPOS DE BASE
+    const tiposBaseSignificados = {
+        'vf': 'Venta en Frío',
+        'pa': 'Preaprobados',
+        'po': 'Preoferta',
+        'pocdc': 'Preoferta compra de cartera',
+        'part': 'Preoferta retaqueo',
+        'hip': 'Hipotecario',
+        'ces': 'Cesión',
+        'ren': 'Renovación',
+        'ven': 'Vencimiento',
+        'rei': 'Reinversión'
+    };
+
     function actualizarOpcionesTipoBase() {
         const productoSelect = document.getElementById('producto');
         const tipoBaseSelect = document.getElementById('tipo_base');
         const producto = productoSelect.value;
 
+        // Limpiar opciones anteriores
         tipoBaseSelect.innerHTML = '<option value="">--Sin tipo--</option>';
 
         if (tiposBaseMap[producto]) {
             tiposBaseMap[producto].forEach(tipo => {
                 const option = document.createElement('option');
-                option.value = tipo.toLowerCase();
-                option.textContent = tipo;
+                const tipoLower = tipo.toLowerCase();
+                option.value = tipoLower;
+                const significado = tiposBaseSignificados[tipoLower];
+                option.textContent = significado ? `${tipo} - ${significado}` : tipo;
                 tipoBaseSelect.appendChild(option);
             });
         }
 
+        // Si hay custom, agregarlo al final
         const option = document.createElement('option');
         option.value = 'CUSTOM';
         option.textContent = '➕ Custom';
@@ -510,11 +527,25 @@
 
     function cambiarTab(event, tabId) {
         event.preventDefault();
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+        
+        // Ocultar todos los tab-content
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+
+        // Desactivar todos los botones
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // Mostrar tab seleccionado y activar botón
         document.getElementById(tabId).classList.add('active');
         event.target.classList.add('active');
-        if (tabId === 'tab-config') cargarHistorialVisual();
+        
+        // Si es tab-config, cargar historial
+        if (tabId === 'tab-config') {
+            cargarHistorialVisual();
+        }
     }
 
     function obtenerValorCampo(id) {
@@ -565,20 +596,21 @@
         mediosConfig.forEach(item => {
             if (item.cant > 0) {
                 for (let i = 1; i <= item.cant; i++) {
+                    let medio = item.nombre;
                     const basePart = tipoBase ? `_${tipoBase}` : '';
                     const journeyName = `${journeyNum}_${linea}_${campana}_${producto}${basePart}_${segmento}_${oferta}_${canal}_${fecha}`.toLowerCase();
-                    const messageName = `${linea}_${campana}_${producto}_${segmento}_${oferta}_${item.nombre}_${i}`.toLowerCase();
+                    const messageName = `${linea}_${campana}_${producto}_${segmento}_${oferta}_${medio}_${i}`.toLowerCase();
                     const utmCampaign = `${linea}_${campana}_${producto}${basePart}_${segmento}_${oferta}_${canal}`.toLowerCase();
-                    const utmContent = `${linea}_${campana}_${producto}_${segmento}_${oferta}_${item.nombre}`.toLowerCase();
+                    const utmContent = `${linea}_${campana}_${producto}_${segmento}_${oferta}_${medio}`.toLowerCase();
 
                     let urlFinal = "---";
                     if (urlBase) {
                         const conector = urlBase.includes('?') ? '&' : '?';
-                        urlFinal = `${urlBase}${conector}utm_source=sfmc&utm_medium=${item.nombre}&utm_campaign=${utmCampaign}&utm_content=${utmContent}`;
+                        urlFinal = `${urlBase}${conector}utm_source=sfmc&utm_medium=${medio}&utm_campaign=${utmCampaign}&utm_content=${utmContent}`;
                     }
 
                     loteActualCalculado.push({
-                        medio: item.nombre,
+                        medio,
                         impacto: i,
                         journeyName,
                         messageName,
@@ -588,7 +620,7 @@
                     });
 
                     const tr = document.createElement('tr');
-                    tr.innerHTML = `<td><strong>${item.nombre}</strong></td><td>Impacto ${i}</td><td><code>${journeyName}</code></td><td><code>${messageName}</code></td><td><code>${utmCampaign}</code></td><td><code>${utmContent}</code></td><td style="word-break:break-all; font-size:10.5px;">${urlFinal}</td>`;
+                    tr.innerHTML = `<td><strong>${medio}</strong></td><td>Impacto ${i}</td><td><code>${journeyName}</code></td><td><code>${messageName}</code></td><td><code>${utmCampaign}</code></td><td><code>${utmContent}</code></td><td style="word-break:break-all; font-size:10.5px;">${urlFinal}</td>`;
                     tbody.appendChild(tr);
                 }
             }
