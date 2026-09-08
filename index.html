@@ -334,7 +334,7 @@
                 <input type="text" id="campana_custom" class="custom-input" placeholder="Escribe valor custom">
             </div>
 
-            <!-- Tipo de Base (dinámico según producto) -->
+            <!-- Tipo de Base (AHORA SIN RESTRICCIONES) -->
             <div>
                 <label>Tipo de Base</label>
                 <select id="tipo_base" onchange="gestionarOpCultura('tipo_base')">
@@ -493,19 +493,6 @@
 
     let loteActualCalculado = [];
 
-    // MAPEO DE TIPOS DE BASE POR PRODUCTO
-    const tiposBaseMap = {
-        'cad': ['VF'],
-        'tdc': ['PA'],
-        'crd': ['VF', 'PA'],
-        'viv': ['HIP', 'CES'],
-        'rem': [],
-        'nga': [],
-        'fics': ['VF'],
-        'cdt': ['VF', 'REN', 'VEN', 'REI'],
-        'prd': ['PO', 'POCDC', 'PART', 'PA']
-    };
-
     // MAPEO DE SIGNIFICADOS DE TIPOS DE BASE
     const tiposBaseSignificados = {
         'vf': 'Venta en Frío',
@@ -521,22 +508,21 @@
     };
 
     function actualizarOpcionesTipoBase() {
-        const productoSelect = document.getElementById('producto');
         const tipoBaseSelect = document.getElementById('tipo_base');
-        const producto = productoSelect.value;
-
+        
         tipoBaseSelect.innerHTML = '<option value="">--Sin tipo--</option>';
 
-        if (tiposBaseMap[producto]) {
-            tiposBaseMap[producto].forEach(tipo => {
-                const option = document.createElement('option');
-                const tipoLower = tipo.toLowerCase();
-                option.value = tipoLower;
-                const significado = tiposBaseSignificados[tipoLower];
-                option.textContent = significado ? `${tipo} - ${significado}` : tipo;
-                tipoBaseSelect.appendChild(option);
-            });
-        }
+        // Mostrar TODOS los tipos de base sin restricciones
+        const todosLosTipos = ['VF', 'PA', 'PO', 'POCDC', 'PART', 'HIP', 'CES', 'REN', 'VEN', 'REI'];
+        
+        todosLosTipos.forEach(tipo => {
+            const option = document.createElement('option');
+            const tipoLower = tipo.toLowerCase();
+            option.value = tipoLower;
+            const significado = tiposBaseSignificados[tipoLower];
+            option.textContent = significado ? `${tipo} - ${significado}` : tipo;
+            tipoBaseSelect.appendChild(option);
+        });
 
         const option = document.createElement('option');
         option.value = 'CUSTOM';
@@ -712,9 +698,9 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-        if (document.getElementById('producto').value) actualizarOpcionesTipoBase();
+        actualizarOpcionesTipoBase();
     });
 </script>
 
 </body>
-</html>
+</html> 
