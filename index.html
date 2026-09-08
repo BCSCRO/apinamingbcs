@@ -272,7 +272,7 @@
                     <option value="per">PER - Personal</option>
                     <option value="mic">MIC - Microempresa</option>
                     <option value="pym">PYM - PyME</option>
-                    <option value="pen">PEN - Pensionista</option>
+                    <option value="pen">PEN - Pensionados</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="segmento_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -280,9 +280,9 @@
 
             <!-- Línea Presupuestal -->
             <div>
-                <label>Línea Presupuestal *</label>
+                <label>Línea Presupuestal</label>
                 <select id="linea_presupuestal" onchange="gestionarOpCultura('linea_presupuestal')">
-                    <option value="">--Selecciona--</option>
+                    <option value="">--En blanco--</option>
                     <option value="bau">BAU - Adquisición</option>
                     <option value="con">CON - Conservación</option>
                     <option value="rea">REA - Reactivación</option>
@@ -297,11 +297,11 @@
                 <input type="text" id="linea_presupuestal_custom" class="custom-input" placeholder="Escribe valor custom">
             </div>
 
-            <!-- Producto (ANTES que Campaña) -->
+            <!-- Producto -->
             <div>
-                <label>Producto *</label>
+                <label>Producto</label>
                 <select id="producto" onchange="gestionarOpCultura('producto'); actualizarOpcionesTipoBase()">
-                    <option value="">--Selecciona--</option>
+                    <option value="">--En blanco--</option>
                     <option value="cad">CAD - Cuentamiga</option>
                     <option value="tdc">TDC - Tarjeta de crédito</option>
                     <option value="crd">CRD - Crédito Libre inversión</option>
@@ -316,11 +316,11 @@
                 <input type="text" id="producto_custom" class="custom-input" placeholder="Escribe valor custom">
             </div>
 
-            <!-- Campaña (DESPUÉS de Producto) -->
+            <!-- Campaña -->
             <div>
-                <label>Campaña *</label>
+                <label>Campaña</label>
                 <select id="campana" onchange="gestionarOpCultura('campana')">
-                    <option value="">--Selecciona--</option>
+                    <option value="">--En blanco--</option>
                     <option value="tyg">TYG - Transa y gana</option>
                     <option value="pam">PAM - Premio amigo</option>
                     <option value="mcd">MCD - Mastercard</option>
@@ -349,16 +349,39 @@
                 <select id="oferta" onchange="gestionarOpCultura('oferta')">
                     <option value="">--En blanco--</option>
                     <option value="breb">BREB - Bienvenida</option>
-                    <option value="usal">USAL - Usuario Antiguo</option>
-                    <option value="us">US - Aumento Límite</option>
-                    <option value="gan">GAN - Ganar > Perder</option>
+                    <option value="usal">USAL - Uso alcancia</option>
+                    <option value="us">US - Uso</option>
+                    <option value="gan">GAN - Ganadores</option>
                     <option value="ref">REF - Referidos</option>
-                    <option value="mejviv">MEJVIV - Mejora Vivienda</option>
-                    <option value="seg">SEG - Seguro</option>
-                    <option value="beni">BENI - Beneficio</option>
-                    <option value="apal">APAL - Apertura Plazo</option>
-                    <option value="apfics">APFICS - Apertura Plazo FIC</option>
+                    <option value="mejviv">MEJVIV - Mejoramiento Vivienda</option>
+                    <option value="seg">SEG - Seguros</option>
+                    <option value="ben">BEN - Beneficios</option>
+                    <option value="apal">APAL - Apertura Alcancia</option>
+                    <option value="apfics">APFICS - Apertura FICS</option>
+                    <option value="tyg">TYG - Transa y gana</option>
+                    <option value="pam">PAM - Premio Amigo</option>
+                    <option value="mcd">MCD - Mastercard</option>
+                    <option value="nbe">NBE - Siguiente mejor experiencia</option>
+                    <option value="etn">ETN - Equipemos tu negocio</option>
+                    <option value="mpa">MPA - Mi pago amigo</option>
+                    <option value="na">NA - Negocio amigo</option>
+                    <option value="col">COL - Colmena</option>
+                    <option value="siigo">SIIGO - SIIGO</option>
                     <option value="simp">SIMP - Simplifica</option>
+                    <option value="apcu">APCU - Apertura cuenta</option>
+                    <option value="apcdt">APCDT - Apertura CDT</option>
+                    <option value="apsg">APSG - Apertura seguro</option>
+                    <option value="uscu">USCU - Uso cuenta</option>
+                    <option value="usfi">USFI - Uso fiduciaria</option>
+                    <option value="crd">CRD - Crédito libre inversión</option>
+                    <option value="tdc">TDC - Tarjeta de crédito</option>
+                    <option value="prd">PRD - Microcrédito</option>
+                    <option value="lib">LIB - Libranza</option>
+                    <option value="cdc">CDC - Compra cartera TDC</option>
+                    <option value="trno">TRNO - Traiga su nómina</option>
+                    <option value="trpe">TRPE - Traiga su pensión</option>
+                    <option value="hip">HIP - Crédito Hipotecario</option>
+                    <option value="hipcdc">HIPCDC - Crédito Hipotecario Cesión de Cartera</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="oferta_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -489,7 +512,7 @@
         'pa': 'Preaprobados',
         'po': 'Preoferta',
         'pocdc': 'Preoferta compra de cartera',
-        'part': 'Preoferta retaqueo',
+        'part': 'Preaprobados retaqueo',
         'hip': 'Hipotecario',
         'ces': 'Cesión',
         'ren': 'Renovación',
