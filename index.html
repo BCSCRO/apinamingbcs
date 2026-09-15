@@ -486,14 +486,16 @@
         <div style="margin-bottom: 20px;">
             <h4 style="color: var(--banco-blue); margin-bottom: 12px;">2️⃣ Message Name (Nombre del Mensaje)</h4>
             <div style="background: #f8fafc; border-left: 4px solid var(--banco-blue); padding: 12px; border-radius: 4px; font-family: Courier New; font-size: 12px; margin-bottom: 10px;">
-                <strong>Formato:</strong> {segmento}_{linea}_{producto}_{campaña}_{oferta}_{medio}_{impacto}
+                <strong>Formato (COMBO):</strong> {segmento}_{linea}_{campaña}_{combo}_{medio}_{impacto}<br>
+                <strong>Formato (INDIVIDUAL):</strong> {segmento}_{linea}_{producto}_{campaña}_{tipoBase}_{oferta}_{medio}_{impacto}
             </div>
             <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
-                <strong>Ejemplo:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">per_con_cad_tyg_breb_email_1</code>
+                <strong>Ejemplo COMBO:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">per_con_tyg_c_apal_apfics_apcdt_email_1</code><br>
+                <strong>Ejemplo INDIVIDUAL:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">per_con_cad_tyg_vf_breb_email_1</code>
             </p>
             <p style="font-size: 12px; color: #4a5568;">
-                🔹 Identifica el mensaje específico dentro del journey<br>
-                🔹 El número final indica el impacto/envío (1, 2, 3...)<br>
+                🔹 Para COMBOS: excluye producto y tipoBase (se expande a múltiples productos)<br>
+                🔹 Para INDIVIDUALES: incluye producto y tipoBase<br>
                 🔹 Se usa en herramientas de marketing automation
             </p>
         </div>
@@ -501,7 +503,7 @@
         <div style="margin-bottom: 20px;">
             <h4 style="color: var(--banco-blue); margin-bottom: 12px;">3️⃣ UTM Campaign (Campaña para Analytics)</h4>
             <div style="background: #f8fafc; border-left: 4px solid var(--banco-blue); padding: 12px; border-radius: 4px; font-family: Courier New; font-size: 12px; margin-bottom: 10px;">
-                <strong>Formato:</strong> {segmento}_{linea}_{producto}_{campaña}_{tipobase}_{oferta}_{canal}
+                <strong>Formato:</strong> {segmento}_{linea}_{productoExpandido}_{campaña}_{tipobase}_{oferta}_{canal}
             </div>
             <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
                 <strong>Ejemplo:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">per_con_cad_tyg_vf_breb_md</code>
@@ -516,7 +518,7 @@
         <div style="margin-bottom: 20px;">
             <h4 style="color: var(--banco-blue); margin-bottom: 12px;">4️⃣ UTM Content (Contenido para Analytics)</h4>
             <div style="background: #f8fafc; border-left: 4px solid var(--banco-blue); padding: 12px; border-radius: 4px; font-family: Courier New; font-size: 12px; margin-bottom: 10px;">
-                <strong>Formato:</strong> {segmento}_{linea}_{producto}_{campaña}_{oferta}_{medio}_{impacto}
+                <strong>Formato:</strong> {segmento}_{linea}_{productoExpandido}_{campaña}_{oferta}_{medio}_{impacto}
             </div>
             <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
                 <strong>Ejemplo:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">per_con_cad_tyg_breb_email_1</code>
@@ -560,7 +562,7 @@
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNV7zeleJ133uN6PMoHkBDLDNzRMactXOZK7fcTwcxi8cEpw0UOBzhCCu0ijnKku_hXw/exec";
 
     let loteActualCalculado = [];
-    let ofertasSeleccionadas = {};
+    let ofertasSeleccionadas = {}; // { oferta_code: { label, email, whatsapp, sms } }
 
     // MAPEO DE COMBOS A PRODUCTOS COMPONENTES
     const comboAProductos = {
@@ -801,8 +803,15 @@
                         // Journey Name: mantiene el combo original + todos los campos
                         let journeyName = `${journeyNum}_${segmento}_${linea}_${producto}_${campana}${basePart}_${oferta}_${canal}_${fecha}`;
                         
-                        // Message Name: usa el PRODUCTO EXPANDIDO (no el combo)
-                        let messageName = `${segmento}_${linea}_${productoExpandido}_${campana}_${oferta}_${item.nombre}_${i}`;
+                        // Message Name: varía según si es combo o no
+                        let messageName;
+                        if (esCombo) {
+                            // Para combos: segmento_linea_campana_combo_medio_impacto
+                            messageName = `${segmento}_${linea}_${campana}_${oferta}_${item.nombre}_${i}`;
+                        } else {
+                            // Para ofertas individuales: segmento_linea_producto_campana_tipoBase_oferta_medio_impacto
+                            messageName = `${segmento}_${linea}_${productoExpandido}_${campana}${basePart}_${oferta}_${item.nombre}_${i}`;
+                        }
                         
                         // UTM Campaign: usa el PRODUCTO EXPANDIDO
                         let utmCampaign = `${segmento}_${linea}_${productoExpandido}_${campana}${basePart}_${oferta}_${canal}`;
@@ -979,7 +988,7 @@
                 email: 0,
                 whatsapp: 0,
                 sms: 0,
-                urls: {}
+                urls: {} // { producto: "https://..." }
             };
             
             // Inicializar URLs vacías para cada producto
@@ -1018,6 +1027,15 @@
             // Determinar si es combo
             const esCombo = data.esCombo || false;
             const productos = data.productosExpandidos || [code];
+            
+            // Invertir orden del label: mostrar primero significado, luego código
+            let labelDisplay = data.label;
+            if (esCombo) {
+                const parts = data.label.split(' - ');
+                if (parts.length === 2) {
+                    labelDisplay = `${parts[1].trim()} (${parts[0].trim()})`;
+                }
+            }
             
             // Construir HTML de campos de impacto
             let htmlImpactos = `
@@ -1068,7 +1086,7 @@
             
             div.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                    <strong style="font-size: 13px;">${data.label} ${esCombo ? '<span style="color: #4cbd74; font-size: 11px; margin-left: 6px;">🔀 Combo</span>' : ''}</strong>
+                    <strong style="font-size: 13px;">${labelDisplay} ${esCombo ? '<span style="color: #4cbd74; font-size: 11px; margin-left: 6px;">🔀 Combo</span>' : ''}</strong>
                     <button style="background: #fee2e2; color: #991b1b; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px;" onclick="removerOferta('${code}')">✕ Quitar</button>
                 </div>
                 ${htmlImpactos}
