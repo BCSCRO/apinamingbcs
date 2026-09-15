@@ -470,63 +470,41 @@
             <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
                 <strong>Ejemplo:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">j1_per_con_cad_tyg_vf_breb_md_082026</code>
             </p>
-            <p style="font-size: 12px; color: #4a5568;">
-                🔹 <strong>j1:</strong> Journey Number (identificador del recorrido)<br>
-                🔹 <strong>per:</strong> Segmento (Personal)<br>
-                🔹 <strong>con:</strong> Línea Presupuestal (Conservación)<br>
-                🔹 <strong>cad:</strong> Producto (Cuentamiga)<br>
-                🔹 <strong>tyg:</strong> Campaña (Transa y Gana)<br>
-                🔹 <strong>vf:</strong> Tipo de Base (Venta en Frío)<br>
-                🔹 <strong>breb:</strong> Oferta (Bienvenida)<br>
-                🔹 <strong>md:</strong> Canal (Medios Directos)<br>
-                🔹 <strong>082026:</strong> Fecha (Agosto 2026)
-            </p>
         </div>
 
         <div style="margin-bottom: 20px;">
             <h4 style="color: var(--banco-blue); margin-bottom: 12px;">2️⃣ Message Name (Nombre del Mensaje)</h4>
             <div style="background: #f8fafc; border-left: 4px solid var(--banco-blue); padding: 12px; border-radius: 4px; font-family: Courier New; font-size: 12px; margin-bottom: 10px;">
-                <strong>Formato (COMBO):</strong> {segmento}_{linea}_{campaña}_{combo}_{medio}_{impacto}<br>
-                <strong>Formato (INDIVIDUAL):</strong> {segmento}_{linea}_{producto}_{campaña}_{tipoBase}_{oferta}_{medio}_{impacto}
+                <strong>COMBO:</strong> {segmento}_{linea}_{campaña}_{combo}_{medio}_{impacto}<br>
+                <strong>INDIVIDUAL:</strong> {segmento}_{linea}_{producto}_{campaña}_{tipoBase}_{oferta}_{medio}_{impacto}
             </div>
             <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
-                <strong>Ejemplo COMBO:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">per_con_tyg_c_apal_apfics_apcdt_email_1</code><br>
-                <strong>Ejemplo INDIVIDUAL:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">per_con_cad_tyg_vf_breb_email_1</code>
-            </p>
-            <p style="font-size: 12px; color: #4a5568;">
-                🔹 Para COMBOS: excluye producto y tipoBase (se expande a múltiples productos)<br>
-                🔹 Para INDIVIDUALES: incluye producto y tipoBase<br>
-                🔹 Se usa en herramientas de marketing automation
+                <strong>Ejemplo COMBO:</strong> <code>per_con_tyg_c_apal_apfics_apcdt_email_1</code><br>
+                <strong>Ejemplo INDIVIDUAL:</strong> <code>per_con_cad_tyg_vf_breb_email_1</code>
             </p>
         </div>
 
         <div style="margin-bottom: 20px;">
             <h4 style="color: var(--banco-blue); margin-bottom: 12px;">3️⃣ UTM Campaign (Campaña para Analytics)</h4>
             <div style="background: #f8fafc; border-left: 4px solid var(--banco-blue); padding: 12px; border-radius: 4px; font-family: Courier New; font-size: 12px; margin-bottom: 10px;">
-                <strong>Formato:</strong> {segmento}_{linea}_{productoExpandido}_{campaña}_{tipobase}_{oferta}_{canal}
+                <strong>COMBO:</strong> {segmento}_{linea}_{campaña}_{canal}<br>
+                <strong>INDIVIDUAL:</strong> {segmento}_{linea}_{producto}_{campaña}_{tipobase}_{oferta}_{canal}
             </div>
             <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
-                <strong>Ejemplo:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">per_con_cad_tyg_vf_breb_md</code>
-            </p>
-            <p style="font-size: 12px; color: #4a5568;">
-                🔹 Se usa en parámetro utm_campaign de Google Analytics<br>
-                🔹 Agrupa todos los impactos de una campaña<br>
-                🔹 No incluye el número de impacto ni la fecha
+                <strong>Ejemplo COMBO:</strong> <code>per_con_tyg_md</code><br>
+                <strong>Ejemplo INDIVIDUAL:</strong> <code>per_con_cad_tyg_vf_breb_md</code>
             </p>
         </div>
 
         <div style="margin-bottom: 20px;">
             <h4 style="color: var(--banco-blue); margin-bottom: 12px;">4️⃣ UTM Content (Contenido para Analytics)</h4>
             <div style="background: #f8fafc; border-left: 4px solid var(--banco-blue); padding: 12px; border-radius: 4px; font-family: Courier New; font-size: 12px; margin-bottom: 10px;">
-                <strong>Formato:</strong> {segmento}_{linea}_{productoExpandido}_{campaña}_{oferta}_{medio}_{impacto}
+                <strong>COMBO:</strong> {segmento}_{linea}_{campaña}_{combo}_{medio}_{impacto}<br>
+                <strong>INDIVIDUAL:</strong> {segmento}_{linea}_{producto}_{campaña}_{oferta}_{medio}_{impacto}
             </div>
             <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
-                <strong>Ejemplo:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">per_con_cad_tyg_breb_email_1</code>
-            </p>
-            <p style="font-size: 12px; color: #4a5568;">
-                🔹 Se usa en parámetro utm_content de Google Analytics<br>
-                🔹 Identifica el contenido/medio específico usado<br>
-                🔹 Permite analizar performance por medio (email vs whatsapp vs SMS)
+                <strong>Ejemplo COMBO:</strong> <code>per_con_tyg_c_apal_apfics_apcdt_email_1</code><br>
+                <strong>Ejemplo INDIVIDUAL:</strong> <code>per_con_cad_tyg_breb_email_1</code>
             </p>
         </div>
     </div>
@@ -562,7 +540,7 @@
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNV7zeleJ133uN6PMoHkBDLDNzRMactXOZK7fcTwcxi8cEpw0UOBzhCCu0ijnKku_hXw/exec";
 
     let loteActualCalculado = [];
-    let ofertasSeleccionadas = {}; // { oferta_code: { label, email, whatsapp, sms } }
+    let ofertasSeleccionadas = {};
 
     // MAPEO DE COMBOS A PRODUCTOS COMPONENTES
     const comboAProductos = {
@@ -624,8 +602,6 @@
         { code: 'trpe', label: 'TRPE - Traiga su pensión' },
         { code: 'hip', label: 'HIP - Crédito Hipotecario' },
         { code: 'hipcdc', label: 'HIPCDC - Crédito Hipotecario Cesión de Cartera' },
-        
-        // COMBOS - Ofertas Empaquetadas
         { code: 'c_apal_apfics_apcdt', label: 'C_APAL_APFICS_APCDT - Combo Alcancia + FICS + CDT' },
         { code: 'c_apal_apfics_crd', label: 'C_APAL_APFICS_CRD - Combo Alcancia + FICS + Crédito' },
         { code: 'c_apal_apfics_prd', label: 'C_APAL_APFICS_PRD - Combo Alcancia + FICS + Microcrédito' },
@@ -648,20 +624,6 @@
         { code: 'c_uscu_tdc', label: 'C_USCU_TDC - Combo Uso Cuenta + Tarjeta de Crédito' }
     ];
 
-    // MAPEO DE TIPOS DE BASE POR PRODUCTO
-    const tiposBaseMap = {
-        'cad': ['VF'],
-        'tdc': ['PA'],
-        'crd': ['VF', 'PA'],
-        'viv': ['HIP', 'CES'],
-        'rem': [],
-        'nga': [],
-        'fics': ['VF'],
-        'cdt': ['VF', 'REN', 'VEN', 'REI'],
-        'prd': ['PO', 'POCDC', 'PART', 'PA']
-    };
-
-    // MAPEO DE SIGNIFICADOS DE TIPOS DE BASE
     const tiposBaseSignificados = {
         'vf': 'Venta en Frío',
         'pa': 'Preaprobados',
@@ -675,19 +637,14 @@
         'rei': 'Reinversión'
     };
 
-    // Función para limpiar underscores consecutivos
     function limpiarUnderscores(texto) {
         return texto.replace(/_+/g, '_').replace(/^_|_$/g, '');
     }
 
     function actualizarOpcionesTipoBase() {
         const tipoBaseSelect = document.getElementById('tipo_base');
-        
         tipoBaseSelect.innerHTML = '<option value="">--Sin tipo--</option>';
-
-        // Mostrar TODOS los tipos de base sin restricciones
         const todosLosTipos = ['VF', 'PA', 'PO', 'POCDC', 'PART', 'HIP', 'CES', 'REN', 'VEN', 'REI'];
-        
         todosLosTipos.forEach(tipo => {
             const option = document.createElement('option');
             const tipoLower = tipo.toLowerCase();
@@ -696,7 +653,6 @@
             option.textContent = significado ? `${tipo} - ${significado}` : tipo;
             tipoBaseSelect.appendChild(option);
         });
-
         const option = document.createElement('option');
         option.value = 'CUSTOM';
         option.textContent = '➕ Custom';
@@ -750,29 +706,23 @@
         const tbody = document.getElementById('filas-lote');
         tbody.innerHTML = '';
 
-        // Si hay ofertas seleccionadas múltiples, usarlas; si no, usar impactos generales
         const tienOfertasMultiples = Object.keys(ofertasSeleccionadas).length > 0;
         
         if (tienOfertasMultiples) {
-            // Iterar sobre cada oferta seleccionada
             Object.entries(ofertasSeleccionadas).forEach(([oferta_code, oferta_data]) => {
                 const medios = [
                     { nombre: 'email', cant: oferta_data.email },
                     { nombre: 'whatsapp', cant: oferta_data.whatsapp },
                     { nombre: 'sms', cant: oferta_data.sms }
                 ];
-                
-                // Pasar las URLs específicas de la oferta
                 generarFilasLote(journeyNum, segmento, linea, producto, campana, tipoBase, oferta_code, canal, fecha, urlBase, medios, tbody, oferta_data);
             });
         } else {
-            // Usar impactos del selector general
             const mediosConfig = [
                 { nombre: 'email', cant: parseInt(document.getElementById('cant_email').value) || 0 },
                 { nombre: 'whatsapp', cant: parseInt(document.getElementById('cant_whatsapp').value) || 0 },
                 { nombre: 'sms', cant: parseInt(document.getElementById('cant_sms').value) || 0 }
             ];
-            
             const oferta = obtenerValorCampo('oferta');
             generarFilasLote(journeyNum, segmento, linea, producto, campana, tipoBase, oferta, canal, fecha, urlBase, mediosConfig, tbody);
         }
@@ -785,7 +735,6 @@
     }
 
     function generarFilasLote(journeyNum, segmento, linea, producto, campana, tipoBase, oferta, canal, fecha, urlBase, medios, tbody, oferta_data) {
-        // Detectar si es un combo (código empieza con 'c_')
         const esCombo = oferta.startsWith('c_');
         let productosAExpandir = [oferta];
         
@@ -796,36 +745,37 @@
         medios.forEach(item => {
             if (item.cant > 0) {
                 for (let i = 1; i <= item.cant; i++) {
-                    // Para cada producto del combo (o el único producto si no es combo)
                     productosAExpandir.forEach(productoExpandido => {
                         const basePart = tipoBase ? `_${tipoBase}` : '';
                         
-                        // Journey Name: mantiene el combo original + todos los campos
                         let journeyName = `${journeyNum}_${segmento}_${linea}_${producto}_${campana}${basePart}_${oferta}_${canal}_${fecha}`;
                         
-                        // Message Name: varía según si es combo o no
                         let messageName;
                         if (esCombo) {
-                            // Para combos: segmento_linea_campana_combo_medio_impacto
                             messageName = `${segmento}_${linea}_${campana}_${oferta}_${item.nombre}_${i}`;
                         } else {
-                            // Para ofertas individuales: segmento_linea_producto_campana_tipoBase_oferta_medio_impacto
                             messageName = `${segmento}_${linea}_${productoExpandido}_${campana}${basePart}_${oferta}_${item.nombre}_${i}`;
                         }
                         
-                        // UTM Campaign: usa el PRODUCTO EXPANDIDO
-                        let utmCampaign = `${segmento}_${linea}_${productoExpandido}_${campana}${basePart}_${oferta}_${canal}`;
+                        // UTM Campaign y Content varía según si es combo
+                        let utmCampaign;
+                        let utmContent;
                         
-                        // UTM Content: usa el PRODUCTO EXPANDIDO
-                        let utmContent = `${segmento}_${linea}_${productoExpandido}_${campana}_${oferta}_${item.nombre}_${i}`;
+                        if (esCombo) {
+                            // Para combos
+                            utmCampaign = `${segmento}_${linea}_${campana}_${canal}`;
+                            utmContent = `${segmento}_${linea}_${campana}_${oferta}_${item.nombre}_${i}`;
+                        } else {
+                            // Para ofertas individuales
+                            utmCampaign = `${segmento}_${linea}_${productoExpandido}_${campana}${basePart}_${oferta}_${canal}`;
+                            utmContent = `${segmento}_${linea}_${productoExpandido}_${campana}_${oferta}_${item.nombre}_${i}`;
+                        }
                         
-                        // Limpiar underscores y convertir a minúsculas
                         journeyName = limpiarUnderscores(journeyName).toLowerCase();
                         messageName = limpiarUnderscores(messageName).toLowerCase();
                         utmCampaign = limpiarUnderscores(utmCampaign).toLowerCase();
                         utmContent = limpiarUnderscores(utmContent).toLowerCase();
 
-                        // Determinar URL: usa la URL específica del producto si está disponible, si no usa urlBase
                         let urlFinal = "---";
                         let urlAUsar = urlBase;
                         
@@ -931,56 +881,44 @@
             });
     }
 
-    // Inicializar lista de ofertas con checkboxes
     function inicializarOfertasCheckboxes() {
         const container = document.getElementById('lista_ofertas_dropdown');
         container.innerHTML = '';
-        
         todasLasOfertas.forEach(oferta => {
             const div = document.createElement('div');
-            div.style.cssText = 'display: flex; align-items: center; padding: 8px 10px; border-bottom: 1px solid #e2e8f0; hover: background: #f8fafc;';
-            
+            div.style.cssText = 'display: flex; align-items: center; padding: 8px 10px; border-bottom: 1px solid #e2e8f0;';
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.id = `chk_${oferta.code}`;
             checkbox.value = oferta.code;
             checkbox.style.cssText = 'margin-right: 10px; flex-shrink: 0; width: 16px; height: 16px; cursor: pointer;';
             checkbox.onchange = () => manejarSeleccionOferta(oferta.code, oferta.label, checkbox.checked);
-            
             const label = document.createElement('label');
             label.htmlFor = `chk_${oferta.code}`;
             label.textContent = oferta.label;
             label.style.cssText = 'margin: 0; cursor: pointer; font-size: 12px; user-select: none;';
-            
             div.appendChild(checkbox);
             div.appendChild(label);
             container.appendChild(div);
         });
     }
 
-    // Filtrar ofertas por búsqueda
     function filtrarOfertasBusqueda() {
         const busqueda = document.getElementById('buscar_oferta').value.toLowerCase();
         const checkboxes = document.querySelectorAll('#lista_ofertas_dropdown > div');
-        
         checkboxes.forEach(div => {
             const label = div.querySelector('label').textContent.toLowerCase();
             div.style.display = label.includes(busqueda) ? 'flex' : 'none';
         });
     }
 
-    // Manejar selección/deselección de oferta
     function manejarSeleccionOferta(oferta_code, oferta_label, isChecked) {
         if (isChecked) {
-            // Detectar si es combo y obtener productos expandidos
             const esCombo = oferta_code.startsWith('c_');
             let productosExpandidos = [oferta_code];
-            
             if (esCombo && comboAProductos[oferta_code]) {
                 productosExpandidos = comboAProductos[oferta_code];
             }
-            
-            // Agregar oferta seleccionada con estructura de URLs por producto
             ofertasSeleccionadas[oferta_code] = {
                 label: oferta_label,
                 esCombo: esCombo,
@@ -988,22 +926,17 @@
                 email: 0,
                 whatsapp: 0,
                 sms: 0,
-                urls: {} // { producto: "https://..." }
+                urls: {}
             };
-            
-            // Inicializar URLs vacías para cada producto
             productosExpandidos.forEach(producto => {
                 ofertasSeleccionadas[oferta_code].urls[producto] = '';
             });
         } else {
-            // Remover oferta
             delete ofertasSeleccionadas[oferta_code];
         }
-        
         actualizarMatrizOfertas();
     }
 
-    // Actualizar matriz de ofertas seleccionadas
     function actualizarMatrizOfertas() {
         const container = document.getElementById('ofertas_matriz');
         const containerParent = document.getElementById('ofertas_seleccionadas_container');
@@ -1015,7 +948,6 @@
             return;
         }
         
-        // Mostrar matriz de ofertas, ocultar selector general
         containerParent.style.display = 'block';
         selectorGeneral.style.display = 'none';
         container.innerHTML = '';
@@ -1023,12 +955,8 @@
         Object.entries(ofertasSeleccionadas).forEach(([code, data]) => {
             const div = document.createElement('div');
             div.style.cssText = 'background: white; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin-bottom: 10px;';
-            
-            // Determinar si es combo
             const esCombo = data.esCombo || false;
             const productos = data.productosExpandidos || [code];
-            
-            // Invertir orden del label: mostrar primero significado, luego código
             let labelDisplay = data.label;
             if (esCombo) {
                 const parts = data.label.split(' - ');
@@ -1037,7 +965,6 @@
                 }
             }
             
-            // Construir HTML de campos de impacto
             let htmlImpactos = `
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
                     <div style="display: flex; align-items: center; gap: 6px;">
@@ -1055,14 +982,11 @@
                 </div>
             `;
             
-            // Construir HTML de campos de URL
             let htmlUrls = '';
-            
             if (esCombo) {
                 htmlUrls += `<div style="border-top: 1px solid #e2e8f0; padding-top: 10px; margin-top: 10px;">
                     <strong style="font-size: 12px; color: #2d3748; display: block; margin-bottom: 8px;">🔗 URLs por Producto:</strong>
                 `;
-                
                 productos.forEach(producto => {
                     const urlValue = data.urls[producto] || '';
                     const productoLabel = producto.toUpperCase();
@@ -1073,7 +997,6 @@
                         </div>
                     `;
                 });
-                
                 htmlUrls += `</div>`;
             } else {
                 htmlUrls += `
@@ -1092,7 +1015,6 @@
                 ${htmlImpactos}
                 ${htmlUrls}
             `;
-            
             container.appendChild(div);
         });
     }
@@ -1121,8 +1043,6 @@
     document.addEventListener("DOMContentLoaded", () => {
         actualizarOpcionesTipoBase();
         inicializarOfertasCheckboxes();
-        
-        // Event listener para buscador
         document.getElementById('buscar_oferta').addEventListener('input', filtrarOfertasBusqueda);
     });
 </script>
