@@ -465,10 +465,12 @@
         <div style="margin-bottom: 20px;">
             <h4 style="color: var(--banco-blue); margin-bottom: 12px;">1️⃣ Journey Name (Nombre del Recorrido)</h4>
             <div style="background: #f8fafc; border-left: 4px solid var(--banco-blue); padding: 12px; border-radius: 4px; font-family: Courier New; font-size: 12px; margin-bottom: 10px;">
-                <strong>Formato:</strong> j{number}_{segmento}_{linea}_{producto}_{campaña}_{tipobase}_{oferta}_{canal}_{fecha}
+                <strong>COMBO:</strong> j{number}_{segmento}_{linea}_{campaña}_{canal}_{fecha}<br>
+                <strong>INDIVIDUAL:</strong> j{number}_{segmento}_{linea}_{producto}_{campaña}_{tipobase}_{oferta}_{canal}_{fecha}
             </div>
             <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
-                <strong>Ejemplo:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">j1_per_con_cad_tyg_vf_breb_md_082026</code>
+                <strong>Ejemplo COMBO:</strong> <code>j1_per_con_tyg_md_082026</code><br>
+                <strong>Ejemplo INDIVIDUAL:</strong> <code>j1_per_con_cad_tyg_vf_breb_md_082026</code>
             </p>
         </div>
 
@@ -748,25 +750,21 @@
                     productosAExpandir.forEach(productoExpandido => {
                         const basePart = tipoBase ? `_${tipoBase}` : '';
                         
-                        let journeyName = `${journeyNum}_${segmento}_${linea}_${producto}_${campana}${basePart}_${oferta}_${canal}_${fecha}`;
-                        
+                        let journeyName;
                         let messageName;
-                        if (esCombo) {
-                            messageName = `${segmento}_${linea}_${campana}_${oferta}_${item.nombre}_${i}`;
-                        } else {
-                            messageName = `${segmento}_${linea}_${productoExpandido}_${campana}${basePart}_${oferta}_${item.nombre}_${i}`;
-                        }
-                        
-                        // UTM Campaign y Content varía según si es combo
                         let utmCampaign;
                         let utmContent;
                         
                         if (esCombo) {
-                            // Para combos
+                            // COMBO: sin producto, sin oferta en Journey Name
+                            journeyName = `${journeyNum}_${segmento}_${linea}_${campana}_${canal}_${fecha}`;
+                            messageName = `${segmento}_${linea}_${campana}_${oferta}_${item.nombre}_${i}`;
                             utmCampaign = `${segmento}_${linea}_${campana}_${canal}`;
                             utmContent = `${segmento}_${linea}_${campana}_${oferta}_${item.nombre}_${i}`;
                         } else {
-                            // Para ofertas individuales
+                            // INDIVIDUAL: mantiene producto y oferta
+                            journeyName = `${journeyNum}_${segmento}_${linea}_${producto}_${campana}${basePart}_${oferta}_${canal}_${fecha}`;
+                            messageName = `${segmento}_${linea}_${productoExpandido}_${campana}${basePart}_${oferta}_${item.nombre}_${i}`;
                             utmCampaign = `${segmento}_${linea}_${productoExpandido}_${campana}${basePart}_${oferta}_${canal}`;
                             utmContent = `${segmento}_${linea}_${productoExpandido}_${campana}_${oferta}_${item.nombre}_${i}`;
                         }
