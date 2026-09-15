@@ -597,28 +597,26 @@
         { code: 'trpe', label: 'TRPE - Traiga su pensión' },
         { code: 'hip', label: 'HIP - Crédito Hipotecario' },
         { code: 'hipcdc', label: 'HIPCDC - Crédito Hipotecario Cesión de Cartera' },
-        
-        // COMBOS - Ofertas Empaquetadas
-        { code: 'c_apal_apfics_apcdt', label: 'C_APAL_APFICS_APCDT - Alcancia + FICS + CDT' },
-        { code: 'c_apal_apfics_crd', label: 'C_APAL_APFICS_CRD - Alcancia + FICS + CRD' },
-        { code: 'c_apal_apfics_prd', label: 'C_APAL_APFICS_PRD - Alcancia + FICS + PRD' },
-        { code: 'c_apal_crd', label: 'C_APAL_CRD - Alcancia + CRD' },
-        { code: 'c_apal_prd', label: 'C_APAL_PRD - Alcancia + PRD' },
-        { code: 'c_apcu_crd', label: 'C_APCU_CRD - Apertura Cuenta + CRD' },
-        { code: 'c_apcu_hip', label: 'C_APCU_HIP - Apertura cuenta + PRD Hipotecario' },
-        { code: 'c_apcu_prd', label: 'C_APCU_PRD - Apertura cuenta + PRD' },
-        { code: 'c_apfics_apcdt_crd', label: 'C_APFICS_APCDT_CRD - FICS + CDT + CRD' },
-        { code: 'c_apfics_apcdt_prd', label: 'C_APFICS_APCDT_PRD - FICS + CDT + PRD' },
-        { code: 'c_apfics_crd', label: 'C_APFICS_CRD - FICS + CRD' },
-        { code: 'c_apfics_prd', label: 'C_APFICS_PRD - FICS + PRD' },
-        { code: 'c_apnom_crd', label: 'C_APNOM_CRD - Apertura nómina + CRD' },
-        { code: 'c_apnom_uscu_crd', label: 'C_APNOM_USCU_CRD - Apertura nómina + Uso cuenta + CRD' },
-        { code: 'c_usal_crd', label: 'C_USAL_CRD - Uso Alcancia + CRD' },
-        { code: 'c_usal_prd', label: 'C_USAL_PRD - Uso Alcancia + PRD' },
-        { code: 'c_uscu_crd', label: 'C_USCU_CRD - Uso cuenta + CRD' },
-        { code: 'c_uscu_prd', label: 'C_USCU_PRD - Uso cuenta + PRD' },
-        { code: 'c_uscu_seg_prd', label: 'C_USCU_SEG_PRD - Uso cuenta + Seguros + PRD' },
-        { code: 'c_uscu_tdc', label: 'C_USCU_TDC - Uso cuenta + TDC' }
+        { code: 'c_apal_apfics_apcdt', label: 'C_APAL_APFICS_APCDT - Combo Alcancia + FICS + CDT' },
+        { code: 'c_apal_apfics_crd', label: 'C_APAL_APFICS_CRD - Combo Alcancia + FICS + Crédito' },
+        { code: 'c_apal_apfics_prd', label: 'C_APAL_APFICS_PRD - Combo Alcancia + FICS + Microcrédito' },
+        { code: 'c_apal_crd', label: 'C_APAL_CRD - Combo Alcancia + Crédito' },
+        { code: 'c_apal_prd', label: 'C_APAL_PRD - Combo Alcancia + Microcrédito' },
+        { code: 'c_apcu_crd', label: 'C_APCU_CRD - Combo Apertura Cuenta + Crédito' },
+        { code: 'c_apcu_hip', label: 'C_APCU_HIP - Combo Apertura Cuenta + Crédito Hipotecario' },
+        { code: 'c_apcu_prd', label: 'C_APCU_PRD - Combo Apertura Cuenta + Microcrédito' },
+        { code: 'c_apfics_apcdt_crd', label: 'C_APFICS_APCDT_CRD - Combo FICS + CDT + Crédito' },
+        { code: 'c_apfics_apcdt_prd', label: 'C_APFICS_APCDT_PRD - Combo FICS + CDT + Microcrédito' },
+        { code: 'c_apfics_crd', label: 'C_APFICS_CRD - Combo FICS + Crédito' },
+        { code: 'c_apfics_prd', label: 'C_APFICS_PRD - Combo FICS + Microcrédito' },
+        { code: 'c_apnom_crd', label: 'C_APNOM_CRD - Combo Apertura Nómina + Crédito' },
+        { code: 'c_apnom_uscu_crd', label: 'C_APNOM_USCU_CRD - Combo Apertura Nómina + Uso Cuenta + Crédito' },
+        { code: 'c_usal_crd', label: 'C_USAL_CRD - Combo Uso Alcancia + Crédito' },
+        { code: 'c_usal_prd', label: 'C_USAL_PRD - Combo Uso Alcancia + Microcrédito' },
+        { code: 'c_uscu_crd', label: 'C_USCU_CRD - Combo Uso Cuenta + Crédito' },
+        { code: 'c_uscu_prd', label: 'C_USCU_PRD - Combo Uso Cuenta + Microcrédito' },
+        { code: 'c_uscu_seg_prd', label: 'C_USCU_SEG_PRD - Combo Uso Cuenta + Seguros + Microcrédito' },
+        { code: 'c_uscu_tdc', label: 'C_USCU_TDC - Combo Uso Cuenta + Tarjeta de Crédito' }
     ];
 
     const tiposBaseSignificados = {
@@ -849,7 +847,7 @@
         container.innerHTML = '';
         todasLasOfertas.forEach(oferta => {
             const div = document.createElement('div');
-            div.style.cssText = 'display: flex; align-items: center; padding: 8px 10px; border-bottom: 1px solid #e2e8f0; hover: background: #f8fafc;';
+            div.style.cssText = 'display: flex; align-items: center; padding: 8px 10px; border-bottom: 1px solid #e2e8f0;';
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.id = `chk_${oferta.code}`;
