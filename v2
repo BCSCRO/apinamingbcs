@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramienta Naming Equipo performance - Banco Caja Social</title>
+    <style>
+        :root {
+            --banco-blue: #003366;
+            --banco-hover: #002244;
+            --banco-green: #4cbd74;
+            --bg-gray: #f4f7fa;
+            --card-bg: #ffffff;
+            --border-color: #cbd5e1;
+            --text-color: #1a202c;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            padding: 20px; 
+            background-color: var(--bg-gray); 
+            color: var(--text-color);
+            margin: 0;
+        }
+        .container { 
+            max-width: 1100px; 
+            background: var(--card-bg); 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+            margin: 10px auto; 
+        }
+        
+        .header-app { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding-bottom: 18px; 
+            margin-bottom: 20px; 
+            border-bottom: 4px solid var(--banco-blue); 
+        }
+        .logo-text { 
+            font-size: 24px; 
+            font-weight: bold; 
+            color: var(--banco-blue); 
+        }
+        .title-app { 
+            color: var(--banco-blue); 
+            font-size: 18px; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            margin: 0; 
+            text-align: right; 
+        }
+
+        .tabs { 
+            display: flex; 
+            border-bottom: 2px solid var(--border-color); 
+            margin-bottom: 20px; 
+            gap: 4px;
+        }
+        .tab-button { 
+            padding: 10px 18px; 
+            cursor: pointer; 
+            background: #e2e8f0; 
+            border: none; 
+            border-radius: 6px 6px 0 0; 
+            font-weight: bold; 
+            color: #4a5568; 
+            font-size: 13px;
+        }
+        .tab-button.active { 
+            background: var(--banco-blue); 
+            color: white; 
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); 
+            gap: 14px; 
+        }
+        .full-width { grid-column: 1 / -1; }
+        label { 
+            font-weight: 700; 
+            display: block; 
+            margin-top: 4px; 
+            color: #4a5568; 
+            font-size: 12px; 
+            text-transform: uppercase;
+        }
+        select, input { 
+            width: 100%; 
+            padding: 8px 10px; 
+            margin-top: 4px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 6px; 
+            box-sizing: border-box; 
+            font-size: 13px; 
+            background-color: #fff;
+        }
+        select:focus, input:focus { 
+            border-color: var(--banco-blue); 
+            outline: none; 
+            background-color: #f8fafc; 
+        }
+        .custom-input {
+            margin-top: 4px;
+            border-color: var(--banco-green);
+            background-color: #f0fdf4;
+            display: none;
+        }
+
+        .batch-box {
+            background: #f0fdf4;
+            border: 1px solid var(--banco-green);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 15px;
+        }
+        .batch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .batch-item {
+            background: white;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .batch-item label {
+            margin: 0;
+            text-transform: capitalize;
+            font-size: 12px;
+        }
+        .batch-item input[type="number"] {
+            width: 55px;
+            padding: 4px;
+            margin: 0;
+            text-align: center;
+        }
+
+        button.primary-btn { 
+            width: 100%; 
+            background-color: var(--banco-blue); 
+            color: white; 
+            padding: 12px; 
+            border: none; 
+            border-radius: 6px; 
+            margin-top: 15px; 
+            cursor: pointer; 
+            font-size: 14px; 
+            font-weight: bold; 
+        }
+        button.primary-btn:hover { background-color: var(--banco-hover); }
+        button.primary-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .result-box { 
+            margin-top: 20px; 
+            padding: 18px; 
+            background: #f8fafc; 
+            border: 1px solid var(--border-color);
+            border-left: 6px solid var(--banco-blue); 
+            border-radius: 8px; 
+            display: none;
+        }
+
+        .batch-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11.5px;
+            margin-top: 12px;
+            background: white;
+        }
+        .batch-table th, .batch-table td {
+            padding: 8px;
+            border: 1px solid #cbd5e1;
+            text-align: left;
+        }
+        .batch-table th {
+            background: var(--banco-blue);
+            color: white;
+        }
+        .batch-table td:last-child {
+            min-width: 250px;
+            word-break: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            background: #f8fafc;
+        }
+        .batch-table-wrapper {
+            overflow-x: auto;
+            margin-top: 12px;
+            border-radius: 6px;
+        }
+
+        .copy-btn { 
+            background-color: #edf2f7; 
+            color: #4a5568; 
+            padding: 6px 12px; 
+            font-size: 12px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-weight: 600; 
+        }
+        .copy-btn:hover { background-color: #e2e8f0; }
+
+        .history-table-container { margin-top: 15px; overflow-x: auto; }
+        table.history-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11.5px;
+            text-align: left;
+        }
+        table.history-table th, table.history-table td {
+            padding: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        table.history-table th {
+            background-color: var(--banco-blue);
+            color: white;
+        }
+
+        .status-alert {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .status-alert.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+        .status-alert.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-app">
+        <div class="logo-text">🏦 BANCO CAJA SOCIAL</div>
+        <div class="title-app">Herramienta Naming Equipo performance</div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-button active" onclick="cambiarTab(event, 'tab-generador')">📝 Generador</button>
+        <button class="tab-button" onclick="cambiarTab(event, 'tab-taxonomia')">📚 Taxonomía</button>
+        <button class="tab-button" onclick="cambiarTab(event, 'tab-config')">📊 Historial</button>
+    </div>
+
+    <!-- TAB 1: GENERADOR -->
+    <div id="tab-generador" class="tab-content active">
+        <div class="grid">
+            <!-- Journey Number -->
+            <div>
+                <label>Journey Number</label>
+                <input type="text" id="journey_num" placeholder="j1" value="j1">
+            </div>
+
+            <!-- Segmento (con opción en blanco) -->
+            <div>
+                <label>Segmento</label>
+                <select id="segmento" onchange="gestionarOpCultura('segmento')">
+                    <option value="">--En blanco--</option>
+                    <option value="per">PER - Personal</option>
+                    <option value="mic">MIC - Microempresa</option>
+                    <option value="pym">PYM - PyME</option>
+                    <option value="pen">PEN - Pensionados</option>
+                    <option value="CUSTOM">➕ Custom</option>
+                </select>
+                <input type="text" id="segmento_custom" class="custom-input" placeholder="Escribe valor custom">
+            </div>
+
+            <!-- Línea Presupuestal -->
+            <div>
+                <label>Línea Presupuestal</label>
+                <select id="linea_presupuestal" onchange="gestionarOpCultura('linea_presupuestal')">
+                    <option value="">--Selecciona--</option>
+                    <option value="bau">BAU - Adquisición</option>
+                    <option value="con">CON - Conservación</option>
+                    <option value="rea">REA - Reactivación</option>
+                    <option value="prof">PROF - Profundización</option>
+                    <option value="fid">FID - Fidelización</option>
+                    <option value="onb">ONB - Onboarding</option>
+                    <option value="cmi">CMI - CMI</option>
+                    <option value="otr">OTR - Otras campañas</option>
+                    <option value="tx">TX - Transaccionalidad</option>
+                    <option value="CUSTOM">➕ Custom</option>
+                </select>
+                <input type="text" id="linea_presupuestal_custom" class="custom-input" placeholder="Escribe valor custom">
+            </div>
+
+            <!-- Producto (ANTES que Campaña) -->
+            <div>
+                <label>Producto</label>
+                <select id="producto" onchange="gestionarOpCultura('producto'); actualizarOpcionesTipoBase()">
+                    <option value="">--Selecciona--</option>
+                    <option value="cad">CAD - Cuentamiga</option>
+                    <option value="tdc">TDC - Tarjeta de crédito</option>
+                    <option value="crd">CRD - Crédito Libre inversión</option>
+                    <option value="viv">VIV - Vivienda</option>
+                    <option value="rem">REM - Remesas</option>
+                    <option value="nga">NGA - Negocio Amigo</option>
+                    <option value="fics">FICS - FICS</option>
+                    <option value="cdt">CDT - CDT</option>
+                    <option value="prd">PRD - Microcrédito</option>
+                    <option value="CUSTOM">➕ Custom</option>
+                </select>
+                <input type="text" id="producto_custom" class="custom-input" placeholder="Escribe valor custom">
+            </div>
+
+            <!-- Campaña (DESPUÉS de Producto) -->
+            <div>
+                <label>Campaña</label>
+                <select id="campana" onchange="gestionarOpCultura('campana')">
+                    <option value="">--Selecciona--</option>
+                    <option value="tyg">TYG - Transa y gana</option>
+                    <option value="pam">PAM - Premio amigo</option>
+                    <option value="mcd">MCD - Mastercard</option>
+                    <option value="nbe">NBE - Siguiente mejor experiencia</option>
+                    <option value="etn">ETN - Equipemos tu negocio</option>
+                    <option value="mpa">MPA - Mi Pago Amigo</option>
+                    <option value="alc">ALC - Apertura Alcancia</option>
+                    <option value="siigo">SIIGO - SIIGO</option>
+                    <option value="CUSTOM">➕ Custom</option>
+                </select>
+                <input type="text" id="campana_custom" class="custom-input" placeholder="Escribe valor custom">
+            </div>
+
+            <!-- Tipo de Base (dinámico según producto) -->
+            <div>
+                <label>Tipo de Base</label>
+                <select id="tipo_base" onchange="gestionarOpCultura('tipo_base')">
+                    <option value="">--Sin tipo--</option>
+                </select>
+                <input type="text" id="tipo_base_custom" class="custom-input" placeholder="Escribe valor custom">
+            </div>
+
+            <!-- Oferta (Buscador + Checkboxes Múltiples) -->
+            <div class="full-width">
+                <label>Oferta (Búsqueda + Selección Múltiple)</label>
+                <input type="text" id="buscar_oferta" placeholder="🔍 Busca por nombre: 'apertura', 'uso', 'transa'..." style="margin-bottom: 8px;">
+                <div id="lista_ofertas_dropdown" style="border: 1px solid var(--border-color); border-radius: 6px; max-height: 250px; overflow-y: auto; background: white; padding: 8px;">
+                    <!-- Se generan dinámicamente los checkboxes -->
+                </div>
+            </div>
+
+            <!-- Canal (con opción en blanco) -->
+            <div>
+                <label>Canal</label>
+                <select id="canal" onchange="gestionarOpCultura('canal')">
+                    <option value="">--En blanco--</option>
+                    <option value="md">MD - Medios Directos</option>
+                    <option value="ads">ADS - Google Ads</option>
+                    <option value="mp">MP - Meta Ads</option>
+                    <option value="CUSTOM">➕ Custom</option>
+                </select>
+                <input type="text" id="canal_custom" class="custom-input" placeholder="Escribe valor custom">
+            </div>
+
+            <!-- Fecha -->
+            <div>
+                <label>Fecha (ej: 092026)</label>
+                <input type="text" id="fecha" placeholder="092026" value="092026">
+            </div>
+
+            <!-- URL Base -->
+            <div class="full-width">
+                <label>URL Base (opcional)</label>
+                <input type="text" id="url_base" placeholder="https://ejemplo.com/landing">
+            </div>
+        </div>
+
+        <!-- OFERTAS SELECCIONADAS CON IMPACTOS POR OFERTA -->
+        <div id="ofertas_seleccionadas_container" style="display:none; margin-top: 20px;">
+            <div class="batch-box">
+                <strong>📋 Ofertas Seleccionadas y sus Impactos</strong>
+                <div id="ofertas_matriz" style="margin-top: 12px;">
+                    <!-- Se genera dinámicamente por cada oferta seleccionada -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SELECTOR MULTICANAL (para ofertas que no se seleccionen múltiples) -->
+        <div class="batch-box" id="selector_multicanal_general">
+            <strong>📧 Cantidad de Impactos por Medio (General)</strong>
+            <div class="batch-grid">
+                <div class="batch-item">
+                    <label>📧 Email</label>
+                    <input type="number" id="cant_email" min="0" max="10" value="0">
+                </div>
+                <div class="batch-item">
+                    <label>📱 WhatsApp</label>
+                    <input type="number" id="cant_whatsapp" min="0" max="10" value="0">
+                </div>
+                <div class="batch-item">
+                    <label>💬 SMS</label>
+                    <input type="number" id="cant_sms" min="0" max="10" value="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTONES DE ACCIÓN -->
+        <button class="primary-btn" onclick="generarLote()">🚀 Generar Lote</button>
+
+        <!-- RESULTADO DEL LOTE -->
+        <div id="result-box-lote" class="result-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <strong style="font-size: 16px;">📋 Lote Generado</strong>
+                <button class="copy-btn" onclick="copiarTablaMasiva()">📋 Copiar Tabla</button>
+            </div>
+            <div class="batch-table-wrapper">
+                <table class="batch-table">
+                    <thead>
+                        <tr>
+                            <th>Medio</th>
+                            <th>Impacto</th>
+                            <th>Journey Name</th>
+                            <th>Message Name</th>
+                            <th>UTM Campaign</th>
+                            <th>UTM Content</th>
+                            <th>URL Final</th>
+                        </tr>
+                    </thead>
+                    <tbody id="filas-lote"></tbody>
+                </table>
+            </div>
+
+            <div id="status-mensaje"></div>
+            <button class="primary-btn" id="btn-guardar-lote" onclick="guardarLoteEnBitacora()">💾 Registrar Lote en Google Sheets</button>
+        </div>
+    </div>
+
+    <!-- TAB 2: TAXONOMÍA -->
+    <div id="tab-taxonomia" class="tab-content">
+        <h3 style="color: var(--banco-blue); margin-top: 0;">📚 Taxonomía de Naming Convention</h3>
+        
+        <div style="background: #f0fdf4; border: 2px solid var(--banco-green); border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+            <h4 style="color: var(--banco-green); margin-top: 0;">Estructura del Nombre Generado</h4>
+            <p style="font-size: 13px; color: #1a202c; line-height: 1.6;">
+                El sistema genera nombres estandarizados que incluyen información de contexto, producto, canal y oferta. Cada componente tiene un significado específico para auditoría y análisis de campañas digitales.
+            </p>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <h4 style="color: var(--banco-blue); margin-bottom: 12px;">1️⃣ Journey Name (Nombre del Recorrido)</h4>
+            <div style="background: #f8fafc; border-left: 4px solid var(--banco-blue); padding: 12px; border-radius: 4px; font-family: Courier New; font-size: 12px; margin-bottom: 10px;">
+                <strong>Formato:</strong> j{number}_{segmento}_{linea}_{producto}_{campaña}_{tipobase}_{oferta}_{canal}_{fecha}
+            </div>
+            <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
+                <strong>Ejemplo:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">j1_per_con_cad_tyg_vf_breb_md_082026</code>
+            </p>
+            <p style="font-size: 12px; color: #4a5568;">
+                🔹 <strong>j1:</strong> Journey Number (identificador del recorrido)<br>
+                🔹 <strong>per:</strong> Segmento (Personal)<br>
+                🔹 <strong>con:</strong> Línea Presupuestal (Conservación)<br>
+                🔹 <strong>cad:</strong> Producto (Cuentamiga)<br>
+                🔹 <strong>tyg:</strong> Campaña (Transa y Gana)<br>
+                🔹 <strong>vf:</strong> Tipo de Base (Venta en Frío)<br>
+                🔹 <strong>breb:</strong> Oferta (Bienvenida)<br>
+                🔹 <strong>md:</strong> Canal (Medios Directos)<br>
+                🔹 <strong>082026:</strong> Fecha (Agosto 2026)
+            </p>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <h4 style="color: var(--banco-blue); margin-bottom: 12px;">2️⃣ Message Name (Nombre del Mensaje)</h4>
+            <div style="background: #f8fafc; border-left: 4px solid var(--banco-blue); padding: 12px; border-radius: 4px; font-family: Courier New; font-size: 12px; margin-bottom: 10px;">
+                <strong>Formato:</strong> {segmento}_{linea}_{producto}_{campaña}_{oferta}_{medio}_{impacto}
+            </div>
+            <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
+                <strong>Ejemplo:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">per_con_cad_tyg_breb_email_1</code>
+            </p>
+            <p style="font-size: 12px; color: #4a5568;">
+                🔹 Identifica el mensaje específico dentro del journey<br>
+                🔹 El número final indica el impacto/envío (1, 2, 3...)<br>
+                🔹 Se usa en herramientas de marketing automation
+            </p>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <h4 style="color: var(--banco-blue); margin-bottom: 12px;">3️⃣ UTM Campaign (Campaña para Analytics)</h4>
+            <div style="background: #f8fafc; border-left: 4px solid var(--banco-blue); padding: 12px; border-radius: 4px; font-family: Courier New; font-size: 12px; margin-bottom: 10px;">
+                <strong>Formato:</strong> {segmento}_{linea}_{producto}_{campaña}_{tipobase}_{oferta}_{canal}
+            </div>
+            <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
+                <strong>Ejemplo:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">per_con_cad_tyg_vf_breb_md</code>
+            </p>
+            <p style="font-size: 12px; color: #4a5568;">
+                🔹 Se usa en parámetro utm_campaign de Google Analytics<br>
+                🔹 Agrupa todos los impactos de una campaña<br>
+                🔹 No incluye el número de impacto ni la fecha
+            </p>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <h4 style="color: var(--banco-blue); margin-bottom: 12px;">4️⃣ UTM Content (Contenido para Analytics)</h4>
+            <div style="background: #f8fafc; border-left: 4px solid var(--banco-blue); padding: 12px; border-radius: 4px; font-family: Courier New; font-size: 12px; margin-bottom: 10px;">
+                <strong>Formato:</strong> {segmento}_{linea}_{producto}_{campaña}_{oferta}_{medio}_{impacto}
+            </div>
+            <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
+                <strong>Ejemplo:</strong> <code style="background: #e2e8f0; padding: 2px 5px; border-radius: 3px;">per_con_cad_tyg_breb_email_1</code>
+            </p>
+            <p style="font-size: 12px; color: #4a5568;">
+                🔹 Se usa en parámetro utm_content de Google Analytics<br>
+                🔹 Identifica el contenido/medio específico usado<br>
+                🔹 Permite analizar performance por medio (email vs whatsapp vs SMS)
+            </p>
+        </div>
+    </div>
+
+    <!-- TAB 3: HISTORIAL -->
+    <div id="tab-config" class="tab-content">
+        <h3 style="color: var(--banco-blue); margin-top: 0;">📊 Historial de Registros en Google Sheets</h3>
+        <div class="history-table-container">
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Medio</th>
+                        <th>Journey Name</th>
+                        <th>Message Name</th>
+                        <th>UTM Campaign</th>
+                    </tr>
+                </thead>
+                <tbody id="historial-filas">
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #a0aec0; padding: 20px;">
+                            Cargando registros...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ⭐ URL de Apps Script
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNV7zeleJ133uN6PMoHkBDLDNzRMactXOZK7fcTwcxi8cEpw0UOBzhCCu0ijnKku_hXw/exec";
+
+    let loteActualCalculado = [];
+    let ofertasSeleccionadas = {};
+
+    // MAPEO DE COMBOS A PRODUCTOS COMPONENTES
+    const comboAProductos = {
+        'c_apal_apfics_apcdt': ['apal', 'apfics', 'apcdt'],
+        'c_apal_apfics_crd': ['apal', 'apfics', 'crd'],
+        'c_apal_apfics_prd': ['apal', 'apfics', 'prd'],
+        'c_apal_crd': ['apal', 'crd'],
+        'c_apal_prd': ['apal', 'prd'],
+        'c_apcu_crd': ['apcu', 'crd'],
+        'c_apcu_hip': ['apcu', 'hip'],
+        'c_apcu_prd': ['apcu', 'prd'],
+        'c_apfics_apcdt_crd': ['apfics', 'apcdt', 'crd'],
+        'c_apfics_apcdt_prd': ['apfics', 'apcdt', 'prd'],
+        'c_apfics_crd': ['apfics', 'crd'],
+        'c_apfics_prd': ['apfics', 'prd'],
+        'c_apnom_crd': ['apnom', 'crd'],
+        'c_apnom_uscu_crd': ['apnom', 'uscu', 'crd'],
+        'c_usal_crd': ['usal', 'crd'],
+        'c_usal_prd': ['usal', 'prd'],
+        'c_uscu_crd': ['uscu', 'crd'],
+        'c_uscu_prd': ['uscu', 'prd'],
+        'c_uscu_seg_prd': ['uscu', 'seg', 'prd'],
+        'c_uscu_tdc': ['uscu', 'tdc']
+    };
+
+    // ARRAY DE TODAS LAS OFERTAS
+    const todasLasOfertas = [
+        { code: 'breb', label: 'BREB - Bienvenida' },
+        { code: 'usal', label: 'USAL - Uso alcancia' },
+        { code: 'us', label: 'US - Uso' },
+        { code: 'gan', label: 'GAN - Ganadores' },
+        { code: 'ref', label: 'REF - Referidos' },
+        { code: 'mejviv', label: 'MEJVIV - Mejoramiento Vivienda' },
+        { code: 'seg', label: 'SEG - Seguros' },
+        { code: 'ben', label: 'BEN - Beneficios' },
+        { code: 'apal', label: 'APAL - Apertura Alcancia' },
+        { code: 'apfics', label: 'APFICS - Apertura FICS' },
+        { code: 'tyg', label: 'TYG - Transa y gana' },
+        { code: 'pam', label: 'PAM - Premio Amigo' },
+        { code: 'mcd', label: 'MCD - Mastercard' },
+        { code: 'nbe', label: 'NBE - Siguiente mejor experiencia' },
+        { code: 'etn', label: 'ETN - Equipemos tu negocio' },
+        { code: 'mpa', label: 'MPA - Mi pago amigo' },
+        { code: 'na', label: 'NA - Negocio amigo' },
+        { code: 'col', label: 'COL - Colmena' },
+        { code: 'siigo', label: 'SIIGO - SIIGO' },
+        { code: 'simp', label: 'SIMP - Simplifica' },
+        { code: 'apcu', label: 'APCU - Apertura cuenta' },
+        { code: 'apcdt', label: 'APCDT - Apertura CDT' },
+        { code: 'apsg', label: 'APSG - Apertura seguro' },
+        { code: 'uscu', label: 'USCU - Uso cuenta' },
+        { code: 'usfi', label: 'USFI - Uso fiduciaria' },
+        { code: 'crd', label: 'CRD - Crédito libre inversión' },
+        { code: 'tdc', label: 'TDC - Tarjeta de crédito' },
+        { code: 'prd', label: 'PRD - Microcrédito' },
+        { code: 'lib', label: 'LIB - Libranza' },
+        { code: 'cdc', label: 'CDC - Compra cartera TDC' },
+        { code: 'trno', label: 'TRNO - Traiga su nómina' },
+        { code: 'trpe', label: 'TRPE - Traiga su pensión' },
+        { code: 'hip', label: 'HIP - Crédito Hipotecario' },
+        { code: 'hipcdc', label: 'HIPCDC - Crédito Hipotecario Cesión de Cartera' },
+        
+        // COMBOS - Ofertas Empaquetadas
+        { code: 'c_apal_apfics_apcdt', label: 'C_APAL_APFICS_APCDT - Combo Alcancia + FICS + CDT' },
+        { code: 'c_apal_apfics_crd', label: 'C_APAL_APFICS_CRD - Combo Alcancia + FICS + Crédito' },
+        { code: 'c_apal_apfics_prd', label: 'C_APAL_APFICS_PRD - Combo Alcancia + FICS + Microcrédito' },
+        { code: 'c_apal_crd', label: 'C_APAL_CRD - Combo Alcancia + Crédito' },
+        { code: 'c_apal_prd', label: 'C_APAL_PRD - Combo Alcancia + Microcrédito' },
+        { code: 'c_apcu_crd', label: 'C_APCU_CRD - Combo Apertura Cuenta + Crédito' },
+        { code: 'c_apcu_hip', label: 'C_APCU_HIP - Combo Apertura Cuenta + Crédito Hipotecario' },
+        { code: 'c_apcu_prd', label: 'C_APCU_PRD - Combo Apertura Cuenta + Microcrédito' },
+        { code: 'c_apfics_apcdt_crd', label: 'C_APFICS_APCDT_CRD - Combo FICS + CDT + Crédito' },
+        { code: 'c_apfics_apcdt_prd', label: 'C_APFICS_APCDT_PRD - Combo FICS + CDT + Microcrédito' },
+        { code: 'c_apfics_crd', label: 'C_APFICS_CRD - Combo FICS + Crédito' },
+        { code: 'c_apfics_prd', label: 'C_APFICS_PRD - Combo FICS + Microcrédito' },
+        { code: 'c_apnom_crd', label: 'C_APNOM_CRD - Combo Apertura Nómina + Crédito' },
+        { code: 'c_apnom_uscu_crd', label: 'C_APNOM_USCU_CRD - Combo Apertura Nómina + Uso Cuenta + Crédito' },
+        { code: 'c_usal_crd', label: 'C_USAL_CRD - Combo Uso Alcancia + Crédito' },
+        { code: 'c_usal_prd', label: 'C_USAL_PRD - Combo Uso Alcancia + Microcrédito' },
+        { code: 'c_uscu_crd', label: 'C_USCU_CRD - Combo Uso Cuenta + Crédito' },
+        { code: 'c_uscu_prd', label: 'C_USCU_PRD - Combo Uso Cuenta + Microcrédito' },
+        { code: 'c_uscu_seg_prd', label: 'C_USCU_SEG_PRD - Combo Uso Cuenta + Seguros + Microcrédito' },
+        { code: 'c_uscu_tdc', label: 'C_USCU_TDC - Combo Uso Cuenta + Tarjeta de Crédito' }
+    ];
+
+    // MAPEO DE TIPOS DE BASE POR PRODUCTO
+    const tiposBaseMap = {
+        'cad': ['VF'],
+        'tdc': ['PA'],
+        'crd': ['VF', 'PA'],
+        'viv': ['HIP', 'CES'],
+        'rem': [],
+        'nga': [],
+        'fics': ['VF'],
+        'cdt': ['VF', 'REN', 'VEN', 'REI'],
+        'prd': ['PO', 'POCDC', 'PART', 'PA']
+    };
+
+    // MAPEO DE SIGNIFICADOS DE TIPOS DE BASE
+    const tiposBaseSignificados = {
+        'vf': 'Venta en Frío',
+        'pa': 'Preaprobados',
+        'po': 'Preoferta',
+        'pocdc': 'Preoferta compra de cartera',
+        'part': 'Preaprobados retanqueo',
+        'hip': 'Hipotecario',
+        'ces': 'Cesión Hipotecaria',
+        'ren': 'Renovación',
+        'ven': 'Vencimiento',
+        'rei': 'Reinversión'
+    };
+
+    // Función para limpiar underscores consecutivos
+    function limpiarUnderscores(texto) {
+        return texto.replace(/_+/g, '_').replace(/^_|_$/g, '');
+    }
+
+    function actualizarOpcionesTipoBase() {
+        const tipoBaseSelect = document.getElementById('tipo_base');
+        
+        tipoBaseSelect.innerHTML = '<option value="">--Sin tipo--</option>';
+
+        // Mostrar TODOS los tipos de base sin restricciones
+        const todosLosTipos = ['VF', 'PA', 'PO', 'POCDC', 'PART', 'HIP', 'CES', 'REN', 'VEN', 'REI'];
+        
+        todosLosTipos.forEach(tipo => {
+            const option = document.createElement('option');
+            const tipoLower = tipo.toLowerCase();
+            option.value = tipoLower;
+            const significado = tiposBaseSignificados[tipoLower];
+            option.textContent = significado ? `${tipo} - ${significado}` : tipo;
+            tipoBaseSelect.appendChild(option);
+        });
+
+        const option = document.createElement('option');
+        option.value = 'CUSTOM';
+        option.textContent = '➕ Custom';
+        tipoBaseSelect.appendChild(option);
+    }
+
+    function cambiarTab(event, tabId) {
+        event.preventDefault();
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.target.classList.add('active');
+        if (tabId === 'tab-config') cargarHistorialVisual();
+    }
+
+    function obtenerValorCampo(id) {
+        const select = document.getElementById(id);
+        if (!select) return '';
+        if (select.value === 'CUSTOM') {
+            const customVal = document.getElementById(id + '_custom').value.trim().toLowerCase();
+            return customVal || '';
+        }
+        return select.value.toLowerCase();
+    }
+
+    function gestionarOpCultura(fieldId) {
+        const select = document.getElementById(fieldId);
+        const customInput = document.getElementById(fieldId + '_custom');
+        if (select && customInput) {
+            if (select.value === 'CUSTOM') {
+                customInput.style.display = 'block';
+                customInput.focus();
+            } else {
+                customInput.style.display = 'none';
+            }
+        }
+    }
+
+    function generarLote() {
+        let journeyNum = document.getElementById('journey_num').value.trim().toLowerCase() || 'j1';
+        const linea = obtenerValorCampo('linea_presupuestal');
+        const campana = obtenerValorCampo('campana');
+        const producto = obtenerValorCampo('producto');
+        const tipoBase = obtenerValorCampo('tipo_base');
+        const segmento = obtenerValorCampo('segmento');
+        const canal = obtenerValorCampo('canal');
+        const fecha = document.getElementById('fecha').value.trim().toLowerCase() || '082026';
+        const urlBase = document.getElementById('url_base').value.trim();
+
+        loteActualCalculado = [];
+        const tbody = document.getElementById('filas-lote');
+        tbody.innerHTML = '';
+
+        // Si hay ofertas seleccionadas múltiples, usarlas; si no, usar impactos generales
+        const tienOfertasMultiples = Object.keys(ofertasSeleccionadas).length > 0;
+        
+        if (tienOfertasMultiples) {
+            // Iterar sobre cada oferta seleccionada
+            Object.entries(ofertasSeleccionadas).forEach(([oferta_code, oferta_data]) => {
+                const medios = [
+                    { nombre: 'email', cant: oferta_data.email },
+                    { nombre: 'whatsapp', cant: oferta_data.whatsapp },
+                    { nombre: 'sms', cant: oferta_data.sms }
+                ];
+                
+                // Pasar las URLs específicas de la oferta
+                generarFilasLote(journeyNum, segmento, linea, producto, campana, tipoBase, oferta_code, canal, fecha, urlBase, medios, tbody, oferta_data);
+            });
+        } else {
+            // Usar impactos del selector general
+            const mediosConfig = [
+                { nombre: 'email', cant: parseInt(document.getElementById('cant_email').value) || 0 },
+                { nombre: 'whatsapp', cant: parseInt(document.getElementById('cant_whatsapp').value) || 0 },
+                { nombre: 'sms', cant: parseInt(document.getElementById('cant_sms').value) || 0 }
+            ];
+            
+            const oferta = obtenerValorCampo('oferta');
+            generarFilasLote(journeyNum, segmento, linea, producto, campana, tipoBase, oferta, canal, fecha, urlBase, mediosConfig, tbody);
+        }
+
+        if (loteActualCalculado.length > 0) {
+            document.getElementById('result-box-lote').style.display = 'block';
+        } else {
+            alert('Por favor indica al menos 1 impacto en alguno de los medios o selecciona una oferta.');
+        }
+    }
+
+    function generarFilasLote(journeyNum, segmento, linea, producto, campana, tipoBase, oferta, canal, fecha, urlBase, medios, tbody, oferta_data) {
+        // Detectar si es un combo (código empieza con 'c_')
+        const esCombo = oferta.startsWith('c_');
+        let productosAExpandir = [oferta];
+        
+        if (esCombo && comboAProductos[oferta]) {
+            productosAExpandir = comboAProductos[oferta];
+        }
+
+        medios.forEach(item => {
+            if (item.cant > 0) {
+                for (let i = 1; i <= item.cant; i++) {
+                    // Para cada producto del combo (o el único producto si no es combo)
+                    productosAExpandir.forEach(productoExpandido => {
+                        const basePart = tipoBase ? `_${tipoBase}` : '';
+                        
+                        // Journey Name: mantiene el combo original + todos los campos
+                        let journeyName = `${journeyNum}_${segmento}_${linea}_${producto}_${campana}${basePart}_${oferta}_${canal}_${fecha}`;
+                        
+                        // Message Name: usa el PRODUCTO EXPANDIDO (no el combo)
+                        let messageName = `${segmento}_${linea}_${productoExpandido}_${campana}_${oferta}_${item.nombre}_${i}`;
+                        
+                        // UTM Campaign: usa el PRODUCTO EXPANDIDO
+                        let utmCampaign = `${segmento}_${linea}_${productoExpandido}_${campana}${basePart}_${oferta}_${canal}`;
+                        
+                        // UTM Content: usa el PRODUCTO EXPANDIDO
+                        let utmContent = `${segmento}_${linea}_${productoExpandido}_${campana}_${oferta}_${item.nombre}_${i}`;
+                        
+                        // Limpiar underscores y convertir a minúsculas
+                        journeyName = limpiarUnderscores(journeyName).toLowerCase();
+                        messageName = limpiarUnderscores(messageName).toLowerCase();
+                        utmCampaign = limpiarUnderscores(utmCampaign).toLowerCase();
+                        utmContent = limpiarUnderscores(utmContent).toLowerCase();
+
+                        // Determinar URL: usa la URL específica del producto si está disponible, si no usa urlBase
+                        let urlFinal = "---";
+                        let urlAUsar = urlBase;
+                        
+                        if (oferta_data && oferta_data.urls && oferta_data.urls[productoExpandido]) {
+                            urlAUsar = oferta_data.urls[productoExpandido];
+                        }
+                        
+                        if (urlAUsar) {
+                            const conector = urlAUsar.includes('?') ? '&' : '?';
+                            urlFinal = `${urlAUsar}${conector}utm_source=sfmc&utm_medium=${item.nombre}&utm_campaign=${utmCampaign}&utm_content=${utmContent}`;
+                        }
+
+                        loteActualCalculado.push({
+                            medio: item.nombre,
+                            impacto: i,
+                            journeyName,
+                            messageName,
+                            utmCampaign,
+                            utmContent,
+                            urlFinal
+                        });
+
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `<td><strong>${item.nombre}</strong></td><td>Impacto ${i}</td><td><code>${journeyName}</code></td><td><code>${messageName}</code></td><td><code>${utmCampaign}</code></td><td><code>${utmContent}</code></td><td><code>${urlFinal}</code></td>`;
+                        tbody.appendChild(tr);
+                    });
+                }
+            }
+        });
+    }
+
+    function copiarTablaMasiva() {
+        if (loteActualCalculado.length === 0) return;
+        let textoTSV = "Medio\tImpacto\tJourney Name\tMessage Name\tUTM Campaign\tUTM Content\tURL Final\n";
+        loteActualCalculado.forEach(item => {
+            textoTSV += `${item.medio}\t${item.impacto}\t${item.journeyName}\t${item.messageName}\t${item.utmCampaign}\t${item.utmContent}\t${item.urlFinal}\n`;
+        });
+        navigator.clipboard.writeText(textoTSV).then(() => {
+            alert('✨ Copiado exitosamente. Puedes pegarlo en Excel (Ctrl + V).');
+        });
+    }
+
+    function guardarLoteEnBitacora() {
+        if (loteActualCalculado.length === 0) return;
+        const btn = document.getElementById('btn-guardar-lote');
+        const statusDiv = document.getElementById('status-mensaje');
+        btn.disabled = true;
+        btn.innerText = "⏳ Guardando en Google Sheets...";
+
+        const promesas = loteActualCalculado.map(registro => {
+            const payload = {
+                action: "save",
+                medio: registro.medio,
+                canal: document.getElementById('canal').value || '',
+                journeyName: registro.journeyName,
+                messageName: registro.messageName,
+                utmCampaign: registro.utmCampaign,
+                utmContent: registro.utmContent,
+                urlFinal: registro.urlFinal
+            };
+            return fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) }).then(res => res.json());
+        });
+
+        Promise.all(promesas).then(resultados => {
+            if (resultados.every(r => r.success)) {
+                statusDiv.textContent = `✅ ${loteActualCalculado.length} registros guardados exitosamente en Google Sheets.`;
+                statusDiv.className = 'status-alert success';
+                btn.disabled = false;
+                btn.innerText = "💾 Registrar Lote en Google Sheets";
+                setTimeout(() => cargarHistorialVisual(), 1000);
+            } else {
+                statusDiv.textContent = '❌ Error al guardar algunos registros.';
+                statusDiv.className = 'status-alert error';
+                btn.disabled = false;
+                btn.innerText = "💾 Registrar Lote en Google Sheets";
+            }
+        }).catch(err => {
+            statusDiv.textContent = `❌ Error al guardar: ${err.message}`;
+            statusDiv.className = 'status-alert error';
+            btn.disabled = false;
+            btn.innerText = "💾 Registrar Lote en Google Sheets";
+        });
+    }
+
+    function cargarHistorialVisual() {
+        const tbody = document.getElementById('historial-filas');
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Cargando registros...</td></tr>';
+        fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "read" }) })
+            .then(res => res.json()).then(data => {
+                if (data.success && data.data && data.data.length > 0) {
+                    tbody.innerHTML = '';
+                    data.data.reverse().forEach(item => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `<td><strong>${item['Fecha'] || ''}</strong></td><td>${item['Medio'] || ''}</td><td><code style="color:#2b6cb0;">${item['Journey Name'] || ''}</code></td><td><code style="color:#2f855a;">${item['Message Name'] || ''}</code></td><td><code style="color:var(--banco-blue); font-weight:bold;">${item['UTM Campaign'] || ''}</code></td>`;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#a0aec0; padding:15px;">No hay registros en Google Sheets todavía.</td></tr>';
+                }
+            }).catch(err => {
+                console.error("Error:", err);
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#e53e3e; padding:15px;">Error al conectar con Google Sheets.</td></tr>';
+            });
+    }
+
+    // Inicializar lista de ofertas con checkboxes
+    function inicializarOfertasCheckboxes() {
+        const container = document.getElementById('lista_ofertas_dropdown');
+        container.innerHTML = '';
+        
+        todasLasOfertas.forEach(oferta => {
+            const div = document.createElement('div');
+            div.style.cssText = 'display: flex; align-items: center; padding: 8px 10px; border-bottom: 1px solid #e2e8f0; hover: background: #f8fafc;';
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `chk_${oferta.code}`;
+            checkbox.value = oferta.code;
+            checkbox.style.cssText = 'margin-right: 10px; flex-shrink: 0; width: 16px; height: 16px; cursor: pointer;';
+            checkbox.onchange = () => manejarSeleccionOferta(oferta.code, oferta.label, checkbox.checked);
+            
+            const label = document.createElement('label');
+            label.htmlFor = `chk_${oferta.code}`;
+            label.textContent = oferta.label;
+            label.style.cssText = 'margin: 0; cursor: pointer; font-size: 12px; user-select: none;';
+            
+            div.appendChild(checkbox);
+            div.appendChild(label);
+            container.appendChild(div);
+        });
+    }
+
+    // Filtrar ofertas por búsqueda
+    function filtrarOfertasBusqueda() {
+        const busqueda = document.getElementById('buscar_oferta').value.toLowerCase();
+        const checkboxes = document.querySelectorAll('#lista_ofertas_dropdown > div');
+        
+        checkboxes.forEach(div => {
+            const label = div.querySelector('label').textContent.toLowerCase();
+            div.style.display = label.includes(busqueda) ? 'flex' : 'none';
+        });
+    }
+
+    // Manejar selección/deselección de oferta
+    function manejarSeleccionOferta(oferta_code, oferta_label, isChecked) {
+        if (isChecked) {
+            // Detectar si es combo y obtener productos expandidos
+            const esCombo = oferta_code.startsWith('c_');
+            let productosExpandidos = [oferta_code];
+            
+            if (esCombo && comboAProductos[oferta_code]) {
+                productosExpandidos = comboAProductos[oferta_code];
+            }
+            
+            // Agregar oferta seleccionada con estructura de URLs por producto
+            ofertasSeleccionadas[oferta_code] = {
+                label: oferta_label,
+                esCombo: esCombo,
+                productosExpandidos: productosExpandidos,
+                email: 0,
+                whatsapp: 0,
+                sms: 0,
+                urls: {}
+            };
+            
+            // Inicializar URLs vacías para cada producto
+            productosExpandidos.forEach(producto => {
+                ofertasSeleccionadas[oferta_code].urls[producto] = '';
+            });
+        } else {
+            // Remover oferta
+            delete ofertasSeleccionadas[oferta_code];
+        }
+        
+        actualizarMatrizOfertas();
+    }
+
+    // Actualizar matriz de ofertas seleccionadas
+    function actualizarMatrizOfertas() {
+        const container = document.getElementById('ofertas_matriz');
+        const containerParent = document.getElementById('ofertas_seleccionadas_container');
+        const selectorGeneral = document.getElementById('selector_multicanal_general');
+        
+        if (Object.keys(ofertasSeleccionadas).length === 0) {
+            containerParent.style.display = 'none';
+            selectorGeneral.style.display = 'block';
+            return;
+        }
+        
+        // Mostrar matriz de ofertas, ocultar selector general
+        containerParent.style.display = 'block';
+        selectorGeneral.style.display = 'none';
+        container.innerHTML = '';
+        
+        Object.entries(ofertasSeleccionadas).forEach(([code, data]) => {
+            const div = document.createElement('div');
+            div.style.cssText = 'background: white; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin-bottom: 10px;';
+            
+            // Determinar si es combo
+            const esCombo = data.esCombo || false;
+            const productos = data.productosExpandidos || [code];
+            
+            // Construir HTML de campos de impacto
+            let htmlImpactos = `
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <label style="font-size: 11px; font-weight: bold; color: #4a5568;">📧 Email:</label>
+                        <input type="number" min="0" max="10" value="${data.email}" onchange="actualizarImpactoOferta('${code}', 'email', this.value)" style="width: 50px; padding: 4px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px;">
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <label style="font-size: 11px; font-weight: bold; color: #4a5568;">📱 WhatsApp:</label>
+                        <input type="number" min="0" max="10" value="${data.whatsapp}" onchange="actualizarImpactoOferta('${code}', 'whatsapp', this.value)" style="width: 50px; padding: 4px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px;">
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <label style="font-size: 11px; font-weight: bold; color: #4a5568;">💬 SMS:</label>
+                        <input type="number" min="0" max="10" value="${data.sms}" onchange="actualizarImpactoOferta('${code}', 'sms', this.value)" style="width: 50px; padding: 4px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px;">
+                    </div>
+                </div>
+            `;
+            
+            // Construir HTML de campos de URL
+            let htmlUrls = '';
+            
+            if (esCombo) {
+                htmlUrls += `<div style="border-top: 1px solid #e2e8f0; padding-top: 10px; margin-top: 10px;">
+                    <strong style="font-size: 12px; color: #2d3748; display: block; margin-bottom: 8px;">🔗 URLs por Producto:</strong>
+                `;
+                
+                productos.forEach(producto => {
+                    const urlValue = data.urls[producto] || '';
+                    const productoLabel = producto.toUpperCase();
+                    htmlUrls += `
+                        <div style="margin-bottom: 8px;">
+                            <label style="font-size: 11px; color: #4a5568; display: block; margin-bottom: 4px;">${productoLabel}</label>
+                            <input type="text" value="${urlValue}" placeholder="https://ejemplo.com/landing-${producto}" onchange="actualizarUrlOferta('${code}', '${producto}', this.value)" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; box-sizing: border-box;">
+                        </div>
+                    `;
+                });
+                
+                htmlUrls += `</div>`;
+            } else {
+                htmlUrls += `
+                    <div style="border-top: 1px solid #e2e8f0; padding-top: 10px; margin-top: 10px;">
+                        <label style="font-size: 11px; color: #4a5568; display: block; margin-bottom: 4px;">🔗 URL Base</label>
+                        <input type="text" value="${data.urls[code] || ''}" placeholder="https://ejemplo.com/landing" onchange="actualizarUrlOferta('${code}', '${code}', this.value)" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; box-sizing: border-box;">
+                    </div>
+                `;
+            }
+            
+            div.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <strong style="font-size: 13px;">${data.label} ${esCombo ? '<span style="color: #4cbd74; font-size: 11px; margin-left: 6px;">🔀 Combo</span>' : ''}</strong>
+                    <button style="background: #fee2e2; color: #991b1b; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px;" onclick="removerOferta('${code}')">✕ Quitar</button>
+                </div>
+                ${htmlImpactos}
+                ${htmlUrls}
+            `;
+            
+            container.appendChild(div);
+        });
+    }
+
+    function removerOferta(oferta_code) {
+        delete ofertasSeleccionadas[oferta_code];
+        document.getElementById(`chk_${oferta_code}`).checked = false;
+        actualizarMatrizOfertas();
+    }
+
+    function actualizarImpactoOferta(oferta_code, medio, valor) {
+        if (ofertasSeleccionadas[oferta_code]) {
+            ofertasSeleccionadas[oferta_code][medio] = parseInt(valor) || 0;
+        }
+    }
+
+    function actualizarUrlOferta(oferta_code, producto, valor) {
+        if (ofertasSeleccionadas[oferta_code]) {
+            if (!ofertasSeleccionadas[oferta_code].urls) {
+                ofertasSeleccionadas[oferta_code].urls = {};
+            }
+            ofertasSeleccionadas[oferta_code].urls[producto] = valor.trim();
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        actualizarOpcionesTipoBase();
+        inicializarOfertasCheckboxes();
+        
+        // Event listener para buscador
+        document.getElementById('buscar_oferta').addEventListener('input', filtrarOfertasBusqueda);
+    });
+</script>
+
+</body>
+</html>
