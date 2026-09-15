@@ -562,6 +562,31 @@
     let loteActualCalculado = [];
     let ofertasSeleccionadas = {};
 
+    // MAPEO DE COMBOS A PRODUCTOS COMPONENTES
+    const comboAProductos = {
+        'c_apal_apfics_apcdt': ['apal', 'apfics', 'apcdt'],
+        'c_apal_apfics_crd': ['apal', 'apfics', 'crd'],
+        'c_apal_apfics_prd': ['apal', 'apfics', 'prd'],
+        'c_apal_crd': ['apal', 'crd'],
+        'c_apal_prd': ['apal', 'prd'],
+        'c_apcu_crd': ['apcu', 'crd'],
+        'c_apcu_hip': ['apcu', 'hip'],
+        'c_apcu_prd': ['apcu', 'prd'],
+        'c_apfics_apcdt_crd': ['apfics', 'apcdt', 'crd'],
+        'c_apfics_apcdt_prd': ['apfics', 'apcdt', 'prd'],
+        'c_apfics_crd': ['apfics', 'crd'],
+        'c_apfics_prd': ['apfics', 'prd'],
+        'c_apnom_crd': ['apnom', 'crd'],
+        'c_apnom_uscu_crd': ['apnom', 'uscu', 'crd'],
+        'c_usal_crd': ['usal', 'crd'],
+        'c_usal_prd': ['usal', 'prd'],
+        'c_uscu_crd': ['uscu', 'crd'],
+        'c_uscu_prd': ['uscu', 'prd'],
+        'c_uscu_seg_prd': ['uscu', 'seg', 'prd'],
+        'c_uscu_tdc': ['uscu', 'tdc']
+    };
+
+    // ARRAY DE TODAS LAS OFERTAS
     const todasLasOfertas = [
         { code: 'breb', label: 'BREB - Bienvenida' },
         { code: 'usal', label: 'USAL - Uso alcancia' },
@@ -597,6 +622,8 @@
         { code: 'trpe', label: 'TRPE - Traiga su pensión' },
         { code: 'hip', label: 'HIP - Crédito Hipotecario' },
         { code: 'hipcdc', label: 'HIPCDC - Crédito Hipotecario Cesión de Cartera' },
+        
+        // COMBOS - Ofertas Empaquetadas
         { code: 'c_apal_apfics_apcdt', label: 'C_APAL_APFICS_APCDT - Combo Alcancia + FICS + CDT' },
         { code: 'c_apal_apfics_crd', label: 'C_APAL_APFICS_CRD - Combo Alcancia + FICS + Crédito' },
         { code: 'c_apal_apfics_prd', label: 'C_APAL_APFICS_PRD - Combo Alcancia + FICS + Microcrédito' },
@@ -619,6 +646,20 @@
         { code: 'c_uscu_tdc', label: 'C_USCU_TDC - Combo Uso Cuenta + Tarjeta de Crédito' }
     ];
 
+    // MAPEO DE TIPOS DE BASE POR PRODUCTO
+    const tiposBaseMap = {
+        'cad': ['VF'],
+        'tdc': ['PA'],
+        'crd': ['VF', 'PA'],
+        'viv': ['HIP', 'CES'],
+        'rem': [],
+        'nga': [],
+        'fics': ['VF'],
+        'cdt': ['VF', 'REN', 'VEN', 'REI'],
+        'prd': ['PO', 'POCDC', 'PART', 'PA']
+    };
+
+    // MAPEO DE SIGNIFICADOS DE TIPOS DE BASE
     const tiposBaseSignificados = {
         'vf': 'Venta en Frío',
         'pa': 'Preaprobados',
@@ -632,14 +673,19 @@
         'rei': 'Reinversión'
     };
 
+    // Función para limpiar underscores consecutivos
     function limpiarUnderscores(texto) {
         return texto.replace(/_+/g, '_').replace(/^_|_$/g, '');
     }
 
     function actualizarOpcionesTipoBase() {
         const tipoBaseSelect = document.getElementById('tipo_base');
+        
         tipoBaseSelect.innerHTML = '<option value="">--Sin tipo--</option>';
+
+        // Mostrar TODOS los tipos de base sin restricciones
         const todosLosTipos = ['VF', 'PA', 'PO', 'POCDC', 'PART', 'HIP', 'CES', 'REN', 'VEN', 'REI'];
+        
         todosLosTipos.forEach(tipo => {
             const option = document.createElement('option');
             const tipoLower = tipo.toLowerCase();
@@ -648,6 +694,7 @@
             option.textContent = significado ? `${tipo} - ${significado}` : tipo;
             tipoBaseSelect.appendChild(option);
         });
+
         const option = document.createElement('option');
         option.value = 'CUSTOM';
         option.textContent = '➕ Custom';
@@ -701,23 +748,29 @@
         const tbody = document.getElementById('filas-lote');
         tbody.innerHTML = '';
 
+        // Si hay ofertas seleccionadas múltiples, usarlas; si no, usar impactos generales
         const tienOfertasMultiples = Object.keys(ofertasSeleccionadas).length > 0;
         
         if (tienOfertasMultiples) {
+            // Iterar sobre cada oferta seleccionada
             Object.entries(ofertasSeleccionadas).forEach(([oferta_code, oferta_data]) => {
                 const medios = [
                     { nombre: 'email', cant: oferta_data.email },
                     { nombre: 'whatsapp', cant: oferta_data.whatsapp },
                     { nombre: 'sms', cant: oferta_data.sms }
                 ];
-                generarFilasLote(journeyNum, segmento, linea, producto, campana, tipoBase, oferta_code, canal, fecha, urlBase, medios, tbody);
+                
+                // Pasar las URLs específicas de la oferta
+                generarFilasLote(journeyNum, segmento, linea, producto, campana, tipoBase, oferta_code, canal, fecha, urlBase, medios, tbody, oferta_data);
             });
         } else {
+            // Usar impactos del selector general
             const mediosConfig = [
                 { nombre: 'email', cant: parseInt(document.getElementById('cant_email').value) || 0 },
                 { nombre: 'whatsapp', cant: parseInt(document.getElementById('cant_whatsapp').value) || 0 },
                 { nombre: 'sms', cant: parseInt(document.getElementById('cant_sms').value) || 0 }
             ];
+            
             const oferta = obtenerValorCampo('oferta');
             generarFilasLote(journeyNum, segmento, linea, producto, campana, tipoBase, oferta, canal, fecha, urlBase, mediosConfig, tbody);
         }
@@ -729,40 +782,67 @@
         }
     }
 
-    function generarFilasLote(journeyNum, segmento, linea, producto, campana, tipoBase, oferta, canal, fecha, urlBase, medios, tbody) {
+    function generarFilasLote(journeyNum, segmento, linea, producto, campana, tipoBase, oferta, canal, fecha, urlBase, medios, tbody, oferta_data) {
+        // Detectar si es un combo (código empieza con 'c_')
+        const esCombo = oferta.startsWith('c_');
+        let productosAExpandir = [oferta];
+        
+        if (esCombo && comboAProductos[oferta]) {
+            productosAExpandir = comboAProductos[oferta];
+        }
+
         medios.forEach(item => {
             if (item.cant > 0) {
                 for (let i = 1; i <= item.cant; i++) {
-                    const basePart = tipoBase ? `_${tipoBase}` : '';
-                    let journeyName = `${journeyNum}_${segmento}_${linea}_${producto}_${campana}${basePart}_${oferta}_${canal}_${fecha}`;
-                    let messageName = `${segmento}_${linea}_${producto}_${campana}_${oferta}_${item.nombre}_${i}`;
-                    let utmCampaign = `${segmento}_${linea}_${producto}_${campana}${basePart}_${oferta}_${canal}`;
-                    let utmContent = `${segmento}_${linea}_${producto}_${campana}_${oferta}_${item.nombre}_${i}`;
-                    
-                    journeyName = limpiarUnderscores(journeyName).toLowerCase();
-                    messageName = limpiarUnderscores(messageName).toLowerCase();
-                    utmCampaign = limpiarUnderscores(utmCampaign).toLowerCase();
-                    utmContent = limpiarUnderscores(utmContent).toLowerCase();
+                    // Para cada producto del combo (o el único producto si no es combo)
+                    productosAExpandir.forEach(productoExpandido => {
+                        const basePart = tipoBase ? `_${tipoBase}` : '';
+                        
+                        // Journey Name: mantiene el combo original + todos los campos
+                        let journeyName = `${journeyNum}_${segmento}_${linea}_${producto}_${campana}${basePart}_${oferta}_${canal}_${fecha}`;
+                        
+                        // Message Name: usa el PRODUCTO EXPANDIDO (no el combo)
+                        let messageName = `${segmento}_${linea}_${productoExpandido}_${campana}_${oferta}_${item.nombre}_${i}`;
+                        
+                        // UTM Campaign: usa el PRODUCTO EXPANDIDO
+                        let utmCampaign = `${segmento}_${linea}_${productoExpandido}_${campana}${basePart}_${oferta}_${canal}`;
+                        
+                        // UTM Content: usa el PRODUCTO EXPANDIDO
+                        let utmContent = `${segmento}_${linea}_${productoExpandido}_${campana}_${oferta}_${item.nombre}_${i}`;
+                        
+                        // Limpiar underscores y convertir a minúsculas
+                        journeyName = limpiarUnderscores(journeyName).toLowerCase();
+                        messageName = limpiarUnderscores(messageName).toLowerCase();
+                        utmCampaign = limpiarUnderscores(utmCampaign).toLowerCase();
+                        utmContent = limpiarUnderscores(utmContent).toLowerCase();
 
-                    let urlFinal = "---";
-                    if (urlBase) {
-                        const conector = urlBase.includes('?') ? '&' : '?';
-                        urlFinal = `${urlBase}${conector}utm_source=sfmc&utm_medium=${item.nombre}&utm_campaign=${utmCampaign}&utm_content=${utmContent}`;
-                    }
+                        // Determinar URL: usa la URL específica del producto si está disponible, si no usa urlBase
+                        let urlFinal = "---";
+                        let urlAUsar = urlBase;
+                        
+                        if (oferta_data && oferta_data.urls && oferta_data.urls[productoExpandido]) {
+                            urlAUsar = oferta_data.urls[productoExpandido];
+                        }
+                        
+                        if (urlAUsar) {
+                            const conector = urlAUsar.includes('?') ? '&' : '?';
+                            urlFinal = `${urlAUsar}${conector}utm_source=sfmc&utm_medium=${item.nombre}&utm_campaign=${utmCampaign}&utm_content=${utmContent}`;
+                        }
 
-                    loteActualCalculado.push({
-                        medio: item.nombre,
-                        impacto: i,
-                        journeyName,
-                        messageName,
-                        utmCampaign,
-                        utmContent,
-                        urlFinal
+                        loteActualCalculado.push({
+                            medio: item.nombre,
+                            impacto: i,
+                            journeyName,
+                            messageName,
+                            utmCampaign,
+                            utmContent,
+                            urlFinal
+                        });
+
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `<td><strong>${item.nombre}</strong></td><td>Impacto ${i}</td><td><code>${journeyName}</code></td><td><code>${messageName}</code></td><td><code>${utmCampaign}</code></td><td><code>${utmContent}</code></td><td><code>${urlFinal}</code></td>`;
+                        tbody.appendChild(tr);
                     });
-
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `<td><strong>${item.nombre}</strong></td><td>Impacto ${i}</td><td><code>${journeyName}</code></td><td><code>${messageName}</code></td><td><code>${utmCampaign}</code></td><td><code>${utmContent}</code></td><td><code>${urlFinal}</code></td>`;
-                    tbody.appendChild(tr);
                 }
             }
         });
@@ -842,51 +922,79 @@
             });
     }
 
+    // Inicializar lista de ofertas con checkboxes
     function inicializarOfertasCheckboxes() {
         const container = document.getElementById('lista_ofertas_dropdown');
         container.innerHTML = '';
+        
         todasLasOfertas.forEach(oferta => {
             const div = document.createElement('div');
-            div.style.cssText = 'display: flex; align-items: center; padding: 8px 10px; border-bottom: 1px solid #e2e8f0;';
+            div.style.cssText = 'display: flex; align-items: center; padding: 8px 10px; border-bottom: 1px solid #e2e8f0; hover: background: #f8fafc;';
+            
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.id = `chk_${oferta.code}`;
             checkbox.value = oferta.code;
             checkbox.style.cssText = 'margin-right: 10px; flex-shrink: 0; width: 16px; height: 16px; cursor: pointer;';
             checkbox.onchange = () => manejarSeleccionOferta(oferta.code, oferta.label, checkbox.checked);
+            
             const label = document.createElement('label');
             label.htmlFor = `chk_${oferta.code}`;
             label.textContent = oferta.label;
             label.style.cssText = 'margin: 0; cursor: pointer; font-size: 12px; user-select: none;';
+            
             div.appendChild(checkbox);
             div.appendChild(label);
             container.appendChild(div);
         });
     }
 
+    // Filtrar ofertas por búsqueda
     function filtrarOfertasBusqueda() {
         const busqueda = document.getElementById('buscar_oferta').value.toLowerCase();
         const checkboxes = document.querySelectorAll('#lista_ofertas_dropdown > div');
+        
         checkboxes.forEach(div => {
             const label = div.querySelector('label').textContent.toLowerCase();
             div.style.display = label.includes(busqueda) ? 'flex' : 'none';
         });
     }
 
+    // Manejar selección/deselección de oferta
     function manejarSeleccionOferta(oferta_code, oferta_label, isChecked) {
         if (isChecked) {
+            // Detectar si es combo y obtener productos expandidos
+            const esCombo = oferta_code.startsWith('c_');
+            let productosExpandidos = [oferta_code];
+            
+            if (esCombo && comboAProductos[oferta_code]) {
+                productosExpandidos = comboAProductos[oferta_code];
+            }
+            
+            // Agregar oferta seleccionada con estructura de URLs por producto
             ofertasSeleccionadas[oferta_code] = {
                 label: oferta_label,
+                esCombo: esCombo,
+                productosExpandidos: productosExpandidos,
                 email: 0,
                 whatsapp: 0,
-                sms: 0
+                sms: 0,
+                urls: {}
             };
+            
+            // Inicializar URLs vacías para cada producto
+            productosExpandidos.forEach(producto => {
+                ofertasSeleccionadas[oferta_code].urls[producto] = '';
+            });
         } else {
+            // Remover oferta
             delete ofertasSeleccionadas[oferta_code];
         }
+        
         actualizarMatrizOfertas();
     }
 
+    // Actualizar matriz de ofertas seleccionadas
     function actualizarMatrizOfertas() {
         const container = document.getElementById('ofertas_matriz');
         const containerParent = document.getElementById('ofertas_seleccionadas_container');
@@ -898,6 +1006,7 @@
             return;
         }
         
+        // Mostrar matriz de ofertas, ocultar selector general
         containerParent.style.display = 'block';
         selectorGeneral.style.display = 'none';
         container.innerHTML = '';
@@ -905,12 +1014,14 @@
         Object.entries(ofertasSeleccionadas).forEach(([code, data]) => {
             const div = document.createElement('div');
             div.style.cssText = 'background: white; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px; margin-bottom: 10px;';
-            div.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                    <strong style="font-size: 13px;">${data.label}</strong>
-                    <button style="background: #fee2e2; color: #991b1b; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px;" onclick="removerOferta('${code}')">✕ Quitar</button>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+            
+            // Determinar si es combo
+            const esCombo = data.esCombo || false;
+            const productos = data.productosExpandidos || [code];
+            
+            // Construir HTML de campos de impacto
+            let htmlImpactos = `
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
                     <div style="display: flex; align-items: center; gap: 6px;">
                         <label style="font-size: 11px; font-weight: bold; color: #4a5568;">📧 Email:</label>
                         <input type="number" min="0" max="10" value="${data.email}" onchange="actualizarImpactoOferta('${code}', 'email', this.value)" style="width: 50px; padding: 4px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px;">
@@ -925,6 +1036,45 @@
                     </div>
                 </div>
             `;
+            
+            // Construir HTML de campos de URL
+            let htmlUrls = '';
+            
+            if (esCombo) {
+                htmlUrls += `<div style="border-top: 1px solid #e2e8f0; padding-top: 10px; margin-top: 10px;">
+                    <strong style="font-size: 12px; color: #2d3748; display: block; margin-bottom: 8px;">🔗 URLs por Producto:</strong>
+                `;
+                
+                productos.forEach(producto => {
+                    const urlValue = data.urls[producto] || '';
+                    const productoLabel = producto.toUpperCase();
+                    htmlUrls += `
+                        <div style="margin-bottom: 8px;">
+                            <label style="font-size: 11px; color: #4a5568; display: block; margin-bottom: 4px;">${productoLabel}</label>
+                            <input type="text" value="${urlValue}" placeholder="https://ejemplo.com/landing-${producto}" onchange="actualizarUrlOferta('${code}', '${producto}', this.value)" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; box-sizing: border-box;">
+                        </div>
+                    `;
+                });
+                
+                htmlUrls += `</div>`;
+            } else {
+                htmlUrls += `
+                    <div style="border-top: 1px solid #e2e8f0; padding-top: 10px; margin-top: 10px;">
+                        <label style="font-size: 11px; color: #4a5568; display: block; margin-bottom: 4px;">🔗 URL Base</label>
+                        <input type="text" value="${data.urls[code] || ''}" placeholder="https://ejemplo.com/landing" onchange="actualizarUrlOferta('${code}', '${code}', this.value)" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; box-sizing: border-box;">
+                    </div>
+                `;
+            }
+            
+            div.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <strong style="font-size: 13px;">${data.label} ${esCombo ? '<span style="color: #4cbd74; font-size: 11px; margin-left: 6px;">🔀 Combo</span>' : ''}</strong>
+                    <button style="background: #fee2e2; color: #991b1b; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px;" onclick="removerOferta('${code}')">✕ Quitar</button>
+                </div>
+                ${htmlImpactos}
+                ${htmlUrls}
+            `;
+            
             container.appendChild(div);
         });
     }
@@ -941,9 +1091,20 @@
         }
     }
 
+    function actualizarUrlOferta(oferta_code, producto, valor) {
+        if (ofertasSeleccionadas[oferta_code]) {
+            if (!ofertasSeleccionadas[oferta_code].urls) {
+                ofertasSeleccionadas[oferta_code].urls = {};
+            }
+            ofertasSeleccionadas[oferta_code].urls[producto] = valor.trim();
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
         actualizarOpcionesTipoBase();
         inicializarOfertasCheckboxes();
+        
+        // Event listener para buscador
         document.getElementById('buscar_oferta').addEventListener('input', filtrarOfertasBusqueda);
     });
 </script>
