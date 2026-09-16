@@ -634,10 +634,10 @@
         'part': 'Preaprobados retanqueo',
         'hip': 'Hipotecario',
         'ces': 'Cesión Hipotecaria',
-        'cdc': 'Compra de cartera',
         'ren': 'Renovación',
         'ven': 'Vencimiento',
-        'rei': 'Reinversión'
+        'rei': 'Reinversión',
+        'cdc': 'Compra de cartera'
     };
 
     function limpiarUnderscores(texto) {
@@ -647,7 +647,7 @@
     function actualizarOpcionesTipoBase() {
         const tipoBaseSelect = document.getElementById('tipo_base');
         tipoBaseSelect.innerHTML = '<option value="">--Sin tipo--</option>';
-        const todosLosTipos = ['VF', 'PA', 'PO', 'POCDC', 'PART', 'HIP', 'CES', 'REN', 'VEN', 'REI'];
+        const todosLosTipos = ['VF', 'PA', 'PO', 'POCDC', 'PART', 'HIP', 'CES', 'REN', 'VEN', 'REI', 'CDC'];
         todosLosTipos.forEach(tipo => {
             const option = document.createElement('option');
             const tipoLower = tipo.toLowerCase();
