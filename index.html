@@ -470,7 +470,8 @@
                 <strong>INDIVIDUAL:</strong> j{number}_{segmento}_{linea}_{producto}_{campaña}_{tipobase}_{oferta}_{canal}_{fecha}
             </div>
             <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
-                <strong>Ejemplo NBE:</strong> <code>j1_per_con_nbe_md_082026</code><br>
+                <strong>Ejemplo NBE Individual:</strong> <code>j1_per_tx_nbe_viv_hipcdc_md_092026</code><br>
+                <strong>Ejemplo NBE Combo:</strong> <code>j1_per_tx_nbe_c_apal_apfics_apcdt_md_092026</code><br>
                 <strong>Ejemplo COMBO:</strong> <code>j1_per_con_tyg_md_082026</code><br>
                 <strong>Ejemplo INDIVIDUAL:</strong> <code>j1_per_con_cad_tyg_vf_breb_md_082026</code>
             </p>
@@ -479,12 +480,14 @@
         <div style="margin-bottom: 20px;">
             <h4 style="color: var(--banco-blue); margin-bottom: 12px;">2️⃣ Message Name (Nombre del Mensaje)</h4>
             <div style="background: #f8fafc; border-left: 4px solid var(--banco-blue); padding: 12px; border-radius: 4px; font-family: Courier New; font-size: 12px; margin-bottom: 10px;">
-                <strong>NBE (Especial):</strong> {segmento}_{linea}_{campaña}_{producto}_{oferta}_{medio}_{impacto}<br>
+                <strong>NBE Individual:</strong> {segmento}_{linea}_{campaña}_{producto}_{oferta}_{medio}_{impacto}<br>
+                <strong>NBE Combo:</strong> {segmento}_{linea}_{campaña}_{combo}_{medio}_{impacto}<br>
                 <strong>COMBO:</strong> {segmento}_{linea}_{campaña}_{combo}_{medio}_{impacto}<br>
                 <strong>INDIVIDUAL:</strong> {segmento}_{linea}_{producto}_{campaña}_{tipoBase}_{oferta}_{medio}_{impacto}
             </div>
             <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
-                <strong>Ejemplo NBE:</strong> <code>per_con_nbe_cad_breb_email_1</code><br>
+                <strong>Ejemplo NBE Individual:</strong> <code>per_tx_nbe_viv_hipcdc_email_1</code><br>
+                <strong>Ejemplo NBE Combo:</strong> <code>per_tx_nbe_c_apal_apfics_apcdt_email_1</code><br>
                 <strong>Ejemplo COMBO:</strong> <code>per_con_tyg_c_apal_apfics_apcdt_email_1</code><br>
                 <strong>Ejemplo INDIVIDUAL:</strong> <code>per_con_cad_tyg_vf_breb_email_1</code>
             </p>
@@ -498,7 +501,7 @@
                 <strong>INDIVIDUAL:</strong> {segmento}_{linea}_{producto}_{campaña}_{tipobase}_{oferta}_{canal}
             </div>
             <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
-                <strong>Ejemplo NBE:</strong> <code>per_con_nbe_md</code><br>
+                <strong>Ejemplo NBE:</strong> <code>per_tx_nbe_md</code><br>
                 <strong>Ejemplo COMBO:</strong> <code>per_con_tyg_md</code><br>
                 <strong>Ejemplo INDIVIDUAL:</strong> <code>per_con_cad_tyg_vf_breb_md</code>
             </p>
@@ -507,12 +510,14 @@
         <div style="margin-bottom: 20px;">
             <h4 style="color: var(--banco-blue); margin-bottom: 12px;">4️⃣ UTM Content (Contenido para Analytics)</h4>
             <div style="background: #f8fafc; border-left: 4px solid var(--banco-blue); padding: 12px; border-radius: 4px; font-family: Courier New; font-size: 12px; margin-bottom: 10px;">
-                <strong>NBE (Especial):</strong> {segmento}_{linea}_{campaña}_{producto}_{oferta}_{medio}_{impacto}<br>
+                <strong>NBE Individual:</strong> {segmento}_{linea}_{campaña}_{producto}_{oferta}_{medio}_{impacto}<br>
+                <strong>NBE Combo:</strong> {segmento}_{linea}_{campaña}_{combo}_{medio}_{impacto}<br>
                 <strong>COMBO:</strong> {segmento}_{linea}_{campaña}_{combo}_{medio}_{impacto}<br>
                 <strong>INDIVIDUAL:</strong> {segmento}_{linea}_{producto}_{campaña}_{oferta}_{medio}_{impacto}
             </div>
             <p style="font-size: 12px; color: #4a5568; margin: 8px 0;">
-                <strong>Ejemplo NBE:</strong> <code>per_con_nbe_cad_breb_email_1</code><br>
+                <strong>Ejemplo NBE Individual:</strong> <code>per_tx_nbe_viv_hipcdc_email_1</code><br>
+                <strong>Ejemplo NBE Combo:</strong> <code>per_tx_nbe_c_apal_apfics_apcdt_email_1</code><br>
                 <strong>Ejemplo COMBO:</strong> <code>per_con_tyg_c_apal_apfics_apcdt_email_1</code><br>
                 <strong>Ejemplo INDIVIDUAL:</strong> <code>per_con_cad_tyg_breb_email_1</code>
             </p>
@@ -747,10 +752,15 @@
 
     function generarFilasLote(journeyNum, segmento, linea, producto, campana, tipoBase, oferta, canal, fecha, urlBase, medios, tbody, oferta_data) {
         const esCombo = oferta.startsWith('c_');
-        let productosAExpandir = [oferta];
+        let productosAExpandir = [];
         
+        // Determinar qué productos expandir según el tipo de oferta
         if (esCombo && comboAProductos[oferta]) {
             productosAExpandir = comboAProductos[oferta];
+        } else if (producto) {
+            productosAExpandir = [producto];
+        } else {
+            productosAExpandir = [oferta];
         }
 
         medios.forEach(item => {
@@ -766,14 +776,18 @@
                         
                         // LÓGICA ESPECIAL PARA NBE
                         if (campana === 'nbe') {
-                            // NBE: Journey Name sin producto ni oferta (como combo)
                             journeyName = `${journeyNum}_${segmento}_${linea}_${campana}_${canal}_${fecha}`;
-                            // Message Name: segmento_línea_nbe_producto_oferta_medio_impacto
-                            messageName = `${segmento}_${linea}_${campana}_${productoExpandido}_${oferta}_${item.nombre}_${i}`;
-                            // UTM Campaign: segmento_línea_nbe_canal
                             utmCampaign = `${segmento}_${linea}_${campana}_${canal}`;
-                            // UTM Content: igual a message name
-                            utmContent = `${segmento}_${linea}_${campana}_${productoExpandido}_${oferta}_${item.nombre}_${i}`;
+                            
+                            if (esCombo) {
+                                // NBE + COMBO: usa el código del combo, sin producto del campo
+                                messageName = `${segmento}_${linea}_${campana}_${oferta}_${item.nombre}_${i}`;
+                                utmContent = `${segmento}_${linea}_${campana}_${oferta}_${item.nombre}_${i}`;
+                            } else {
+                                // NBE + INDIVIDUAL: usa siempre el producto del campo
+                                messageName = `${segmento}_${linea}_${campana}_${producto}_${oferta}_${item.nombre}_${i}`;
+                                utmContent = `${segmento}_${linea}_${campana}_${producto}_${oferta}_${item.nombre}_${i}`;
+                            }
                         }
                         // LÓGICA PARA COMBOS (no NBE)
                         else if (esCombo) {
