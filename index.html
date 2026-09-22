@@ -581,6 +581,19 @@
         'c_uscu_tdc': ['uscu', 'tdc']
     };
 
+    // MAPEO DE OFERTAS/PRODUCTOS A URLs PREDETERMINADAS
+    const ofertasAUrls = {
+        'apal': 'https://bit.ly/BCS_App',
+        'usal': 'https://bit.ly/BCS_App',
+        'crd': 'https://digital.bancocajasocial.com/credito',
+        'uscu': 'https://bit.ly/BCS_App',
+        'prd': 'https://digital.bancocajasocial.com/microcredito',
+        'trno': 'https://digital.bancocajasocial.com/cuentamiga',
+        'apcu': 'https://digital.bancocajasocial.com/cuentamiga',
+        'tdc': 'https://www.bancocajasocial.com/canales/ubiquenos/',
+        'seg': 'https://www.bancocajasocial.com/seguros/'
+    };
+
     // ARRAY DE TODAS LAS OFERTAS
     const todasLasOfertas = [
         { code: 'breb', label: 'BREB - Bienvenida' },
@@ -812,6 +825,11 @@
                         let urlFinal = "---";
                         let urlAUsar = urlBase;
                         
+                        // Asignar URL predeterminada si existe
+                        if (ofertasAUrls[productoExpandido] && !urlAUsar) {
+                            urlAUsar = ofertasAUrls[productoExpandido];
+                        }
+                        
                         if (oferta_data && oferta_data.urls && oferta_data.urls[productoExpandido]) {
                             urlAUsar = oferta_data.urls[productoExpandido];
                         }
@@ -962,7 +980,8 @@
                 urls: {}
             };
             productosExpandidos.forEach(producto => {
-                ofertasSeleccionadas[oferta_code].urls[producto] = '';
+                // Asignar URL predeterminada si existe
+                ofertasSeleccionadas[oferta_code].urls[producto] = ofertasAUrls[producto] || '';
             });
         } else {
             delete ofertasSeleccionadas[oferta_code];
@@ -1082,4 +1101,3 @@
 
 </body>
 </html>
-   
