@@ -271,6 +271,28 @@
     <!-- TAB 1: GENERADOR -->
     <div id="tab-generador" class="tab-content active">
         <div class="grid">
+            <!-- Diligenciado por (solo para el histórico en Sheets, NO entra en naming ni UTM) -->
+            <div>
+                <label>Diligenciado por *</label>
+                <select id="diligenciado_por" onchange="gestionarOpCultura('diligenciado_por')">
+                    <option value="">--Selecciona tu nombre--</option>
+                    <option value="Diego">Diego</option>
+                    <option value="Alonso">Alonso</option>
+                    <option value="Cristhian">Cristhian</option>
+                    <option value="Oscar">Oscar</option>
+                    <option value="Brayan">Brayan</option>
+                    <option value="Paola">Paola</option>
+                    <option value="Leidy">Leidy</option>
+                    <option value="Jhon">Jhon</option>
+                    <option value="Angie">Angie</option>
+                    <option value="Laura">Laura</option>
+                    <option value="Miguel">Miguel</option>
+                    <option value="Juliana">Juliana</option>
+                    <option value="CUSTOM">➕ Otro</option>
+                </select>
+                <input type="text" id="diligenciado_por_custom" class="custom-input" placeholder="Escribe tu nombre">
+            </div>
+
             <!-- Journey Number -->
             <div>
                 <label>Journey Number</label>
@@ -536,11 +558,12 @@
                         <th>Journey Name</th>
                         <th>Message Name</th>
                         <th>UTM Campaign</th>
+                        <th>Diligenciado por</th>
                     </tr>
                 </thead>
                 <tbody id="historial-filas">
                     <tr>
-                        <td colspan="5" style="text-align: center; color: #a0aec0; padding: 20px;">
+                        <td colspan="6" style="text-align: center; color: #a0aec0; padding: 20px;">
                             Cargando registros...
                         </td>
                     </tr>
@@ -630,6 +653,7 @@
         { code: 'trpe', label: 'TRPE - Traiga su pensión' },
         { code: 'hip', label: 'HIP - Crédito Hipotecario' },
         { code: 'hipcdc', label: 'HIPCDC - Crédito Hipotecario Cesión de Cartera' },
+        { code: 'bf', label: 'BF - Bienestar Financiero' },
         { code: 'c_apal_apfics_apcdt', label: 'C_APAL_APFICS_APCDT - Combo Alcancia + FICS + CDT' },
         { code: 'c_apal_apfics_crd', label: 'C_APAL_APFICS_CRD - Combo Alcancia + FICS + Crédito' },
         { code: 'c_apal_apfics_prd', label: 'C_APAL_APFICS_PRD - Combo Alcancia + FICS + Microcrédito' },
@@ -665,6 +689,11 @@
         'rei': 'Reinversión',
         'cdc': 'Compra de cartera'
     };
+
+    // Detecta enlaces acortados con Bitly (bit.ly o bitly.com) para no agregarles UTM
+    function esUrlBitly(url) {
+        return /(^|\/\/|\.)(bit\.ly|bitly\.com)(\/|$)/i.test(url.trim());
+    }
 
     function limpiarUnderscores(texto) {
         return texto.replace(/_+/g, '_').replace(/^_|_$/g, '');
@@ -835,8 +864,13 @@
                         }
                         
                         if (urlAUsar) {
-                            const conector = urlAUsar.includes('?') ? '&' : '?';
-                            urlFinal = `${urlAUsar}${conector}utm_source=sfmc&utm_medium=${item.nombre}&utm_campaign=${utmCampaign}&utm_content=${utmContent}`;
+                            if (esUrlBitly(urlAUsar)) {
+                                // Bitly (ej. mensajes de uso que van a la app): NO se agrega UTM para no romper el enlace
+                                urlFinal = urlAUsar;
+                            } else {
+                                const conector = urlAUsar.includes('?') ? '&' : '?';
+                                urlFinal = `${urlAUsar}${conector}utm_source=sfmc&utm_medium=${item.nombre}&utm_campaign=${utmCampaign}&utm_content=${utmContent}`;
+                            }
                         }
 
                         loteActualCalculado.push({
@@ -869,10 +903,27 @@
         });
     }
 
+    // Nombre de quien diligencia (respeta mayúsculas, no pasa por el naming)
+    function obtenerDiligenciadoPor() {
+        const select = document.getElementById('diligenciado_por');
+        if (!select) return '';
+        if (select.value === 'CUSTOM') {
+            return document.getElementById('diligenciado_por_custom').value.trim();
+        }
+        return select.value.trim();
+    }
+
     function guardarLoteEnBitacora() {
         if (loteActualCalculado.length === 0) return;
         const btn = document.getElementById('btn-guardar-lote');
         const statusDiv = document.getElementById('status-mensaje');
+        const diligenciadoPor = obtenerDiligenciadoPor();
+        if (!diligenciadoPor) {
+            statusDiv.textContent = '⚠️ Selecciona quién diligenció el formulario (campo "Diligenciado por") antes de registrar en Google Sheets.';
+            statusDiv.className = 'status-alert error';
+            document.getElementById('diligenciado_por').focus();
+            return;
+        }
         btn.disabled = true;
         btn.innerText = "⏳ Guardando en Google Sheets...";
 
@@ -885,7 +936,8 @@
                 messageName: registro.messageName,
                 utmCampaign: registro.utmCampaign,
                 utmContent: registro.utmContent,
-                urlFinal: registro.urlFinal
+                urlFinal: registro.urlFinal,
+                diligenciadoPor: diligenciadoPor
             };
             return fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify(payload) }).then(res => res.json());
         });
@@ -913,22 +965,22 @@
 
     function cargarHistorialVisual() {
         const tbody = document.getElementById('historial-filas');
-        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">Cargando registros...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px;">Cargando registros...</td></tr>';
         fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify({ action: "read" }) })
             .then(res => res.json()).then(data => {
                 if (data.success && data.data && data.data.length > 0) {
                     tbody.innerHTML = '';
                     data.data.reverse().forEach(item => {
                         const tr = document.createElement('tr');
-                        tr.innerHTML = `<td><strong>${item['Fecha'] || ''}</strong></td><td>${item['Medio'] || ''}</td><td><code style="color:#2b6cb0;">${item['Journey Name'] || ''}</code></td><td><code style="color:#2f855a;">${item['Message Name'] || ''}</code></td><td><code style="color:var(--banco-blue); font-weight:bold;">${item['UTM Campaign'] || ''}</code></td>`;
+                        tr.innerHTML = `<td><strong>${item['Fecha'] || ''}</strong></td><td>${item['Medio'] || ''}</td><td><code style="color:#2b6cb0;">${item['Journey Name'] || ''}</code></td><td><code style="color:#2f855a;">${item['Message Name'] || ''}</code></td><td><code style="color:var(--banco-blue); font-weight:bold;">${item['UTM Campaign'] || ''}</code></td><td>${item['Diligenciado por'] || ''}</td>`;
                         tbody.appendChild(tr);
                     });
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#a0aec0; padding:15px;">No hay registros en Google Sheets todavía.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#a0aec0; padding:15px;">No hay registros en Google Sheets todavía.</td></tr>';
                 }
             }).catch(err => {
                 console.error("Error:", err);
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#e53e3e; padding:15px;">Error al conectar con Google Sheets.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#e53e3e; padding:15px;">Error al conectar con Google Sheets.</td></tr>';
             });
     }
 
