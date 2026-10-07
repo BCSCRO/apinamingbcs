@@ -575,7 +575,7 @@
 
 <script>
     // ⭐ URL de Apps Script
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyQoOXILx4bOZMJG7OuX1io3pN6r4W90IW6xc8gAWE0pL2V8hXEyFRGtIOqOWBvLy9zUg/exec";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxaQyYOgQkYoNPVusG7YdFGnET6VTZK0aegEmEt8nBBhQY6YjIRqABzsRU8ccfh99E_jw/exec";
 
     let loteActualCalculado = [];
     let ofertasSeleccionadas = {};
@@ -854,13 +854,18 @@
                         let urlFinal = "---";
                         let urlAUsar = urlBase;
                         
-                        // Asignar URL predeterminada si existe
-                        if (ofertasAUrls[productoExpandido] && !urlAUsar) {
-                            urlAUsar = ofertasAUrls[productoExpandido];
+                        // Asignar URL predeterminada si existe (por producto, o por código de oferta en ofertas individuales)
+                        const urlPredeterminada = ofertasAUrls[productoExpandido] || (!esCombo ? ofertasAUrls[oferta] : '');
+                        if (urlPredeterminada && !urlAUsar) {
+                            urlAUsar = urlPredeterminada;
                         }
                         
-                        if (oferta_data && oferta_data.urls && oferta_data.urls[productoExpandido]) {
-                            urlAUsar = oferta_data.urls[productoExpandido];
+                        // URL escrita en la tarjeta de la oferta (combos: por producto; individuales: por código de oferta)
+                        const urlDeOferta = oferta_data && oferta_data.urls
+                            ? (oferta_data.urls[productoExpandido] || (!esCombo ? oferta_data.urls[oferta] : ''))
+                            : '';
+                        if (urlDeOferta) {
+                            urlAUsar = urlDeOferta;
                         }
                         
                         if (urlAUsar) {
