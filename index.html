@@ -365,6 +365,8 @@
                     <option value="mpa">MPA - Mi Pago Amigo</option>
                     <option value="alc">ALC - Apertura Alcancia</option>
                     <option value="siigo">SIIGO - SIIGO</option>
+                    <option value="hop">HOP - Hola perdido</option>
+                    <option value="xpay">XPAY - XPay</option>
                     <option value="CUSTOM">➕ Custom</option>
                 </select>
                 <input type="text" id="campana_custom" class="custom-input" placeholder="Escribe valor custom">
@@ -656,6 +658,10 @@
         { code: 'hipcdc', label: 'HIPCDC - Crédito Hipotecario Cesión de Cartera' },
         { code: 'bf', label: 'BF - Bienestar Financiero' },
         { code: 'actd', label: 'ACTD - Activación tarjeta débito' },
+        { code: 'hopetn', label: 'HOPETN - Hola perdido equipemos' },
+        { code: 'hoppam', label: 'HOPPAM - Hola perdido premio amigo' },
+        { code: 'xpayand', label: 'XPAYAND - XPay oferta Android' },
+        { code: 'xpayios', label: 'XPAYIOS - XPay oferta iOS' },
         { code: 'c_apal_apfics_apcdt', label: 'C_APAL_APFICS_APCDT - Combo Alcancia + FICS + CDT' },
         { code: 'c_apal_apfics_crd', label: 'C_APAL_APFICS_CRD - Combo Alcancia + FICS + Crédito' },
         { code: 'c_apal_apfics_prd', label: 'C_APAL_APFICS_PRD - Combo Alcancia + FICS + Microcrédito' },
@@ -689,7 +695,9 @@
         'ren': 'Renovación',
         'ven': 'Vencimiento',
         'rei': 'Reinversión',
-        'cdc': 'Compra de cartera'
+        'cdc': 'Compra de cartera',
+        'ina': 'Inactivos',
+        'act': 'Activos'
     };
 
     // Detecta enlaces acortados con Bitly (bit.ly o bitly.com) para no agregarles UTM
@@ -704,7 +712,7 @@
     function actualizarOpcionesTipoBase() {
         const tipoBaseSelect = document.getElementById('tipo_base');
         tipoBaseSelect.innerHTML = '<option value="">--Sin tipo--</option>';
-        const todosLosTipos = ['VF', 'PA', 'PO', 'POCDC', 'PART', 'HIP', 'CES', 'REN', 'VEN', 'REI', 'CDC'];
+        const todosLosTipos = ['VF', 'PA', 'PO', 'POCDC', 'PART', 'HIP', 'CES', 'REN', 'VEN', 'REI', 'CDC', 'INA', 'ACT'];
         todosLosTipos.forEach(tipo => {
             const option = document.createElement('option');
             const tipoLower = tipo.toLowerCase();
